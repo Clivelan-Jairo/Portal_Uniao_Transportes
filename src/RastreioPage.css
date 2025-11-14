@@ -1,0 +1,121 @@
+/* Estilos para a página de Rastreio */
+.rastreio-page-container {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 1rem;
+  padding: 2.5rem;
+  background-color: var(--cor-branca);
+  border-radius: 16px;
+  box-shadow: var(--sombra-suave);
+}
+
+.rastreio-image-container {
+  flex: 1;
+  min-width: 300px;
+}
+
+.rastreio-image-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.rastreio-form-container {
+  flex: 1;
+}
+
+.rastreio-container p {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.rastreio-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--cor-destaque);
+  box-shadow: 0 0 0 3px rgba(93, 224, 230, 0.3);
+}
+
+.rastreio-error {
+  color: #c81e1e;
+  background-color: #fde8e8;
+  border: 1px solid #c81e1e;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.rastreio-resultado {
+  background-color: #eef5ff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 5px solid var(--cor-primaria);
+}
+
+.rastreio-resultado h3 {
+  color: var(--cor-primaria);
+  margin-bottom: 1rem;
+}
+
+.rastreio-resultado ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.rastreio-resultado li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #dbe8f7;
+}
+
+.rastreio-resultado li:last-child {
+  border-bottom: none;
+}

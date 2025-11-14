@@ -1,0 +1,485 @@
+/* ==============================
+   1. CONFIGURAÇÕES GLOBAIS E VARIÁVEIS
+============================== */
+:root {
+  --cor-primaria: #004aad;    /* Azul principal */
+  --cor-secundaria: #0b3b70;  /* Azul mais escuro para gradientes */
+  --cor-destaque: #5de0e6;    /* Ciano para destaques */
+  --cor-fundo: #f4f8fa;       /* Fundo claro e limpo */
+  --cor-texto: #3a3a3a;        /* Cor de texto principal */
+  --cor-branca: #ffffff;
+  --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Animação de fade-up para seções */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Classe para ativar a animação quando o elemento estiver visível */
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==============================
+   2. LAYOUT
+============================== */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+main {
+  /* O espaçamento superior será aplicado individualmente em cada página que precisar */
+}
+
+/* ==============================
+   2. CABEÇALHO E NAVEGAÇÃO
+============================== */
+header {
+  box-shadow: var(--sombra-suave);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-top-bar {
+  background-color: var(--cor-secundaria);
+  color: var(--cor-branca);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 2rem;
+  font-size: 0.85rem;
+}
+
+.contact-info {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.95rem; /* Ajusta o tamanho da fonte */
+  font-weight: 600; /* Deixa o texto em negrito (semi-bold) */
+}
+
+.contact-info span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Adiciona um espaço entre o ícone e o texto */
+}
+
+.header-top-links a {
+  color: var(--cor-branca);
+  font-size: 1rem; /* Aumenta o tamanho da fonte */
+  font-weight: 600; /* Deixa a fonte um pouco mais forte */
+  text-decoration: none;
+  padding: 0.5rem 1.2rem; /* Adiciona espaçamento interno */
+  border-radius: 6px; /* Bordas arredondadas */
+  background: linear-gradient(135deg, #c81e1e, #a01818); /* Gradiente de vermelho */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.header-top-links a:hover {
+  color: var(--cor-branca); /* Mantém a cor do texto no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.header-main {
+  background-color: var(--cor-branca);
+  display: flex;
+  padding: 0.8rem 0; /* Remove padding lateral */
+}
+
+.header-main-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 55px; /* Você pode ajustar este valor como desejar */
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.8rem;
+}
+
+nav a {
+  color: var(--cor-primaria);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--cor-destaque);
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--cor-destaque);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* ==============================
+   3. SEÇÃO HERO (PRINCIPAL)
+============================== */
+.hero {
+  /* Garante que a seção ocupe pelo menos 100% da altura da tela */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cor-branca);
+  text-align: center;
+  padding: 8rem 2rem; /* Aumentei o padding para dar mais espaço */
+
+  /* Gradiente animado com as duas cores */
+  background: linear-gradient(125deg, var(--cor-primaria), var(--cor-secundaria), var(--cor-destaque));
+  background-size: 400% 400%;
+  animation: animacao-gradiente 15s ease infinite;
+}
+
+/* Animação que move o gradiente */
+@keyframes animacao-gradiente {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h2 {
+  font-size: 3rem;
+  color: var(--cor-branca);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background-color: var(--cor-destaque);
+  color: var(--cor-secundaria);
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 4px 15px rgba(93, 224, 230, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(93, 224, 230, 0.4);
+}
+
+/* ==============================
+   4. SEÇÃO DE SERVIÇOS E CARDS
+============================== */
+.services {
+  /* 
+    Define um espaço no topo ao rolar para a âncora,
+    evitando que o título fique sob o menu fixo.
+  */
+  scroll-margin-top: 130px;
+  /* Garante que a seção ocupe pelo menos 100% da altura da tela */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.services h2 {
+  font-size: 2.2rem;
+  color: var(--cor-primaria);
+  margin-bottom: 2.5rem;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 2.5rem;
+}
+
+.services .cards {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--cor-branca);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: var(--sombra-suave);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center; /* Centraliza o conteúdo do card */
+  flex-basis: 300px; /* Largura base de cada card */
+  flex-grow: 1;
+  position: relative;
+  padding-top: 4rem; /* Abre espaço para o ícone */
+  padding-bottom: 3rem; /* Abre espaço para o link */
+  border-top: 4px solid transparent; /* Borda base */
+  background-image: linear-gradient(var(--cor-branca), var(--cor-branca)), 
+                    linear-gradient(90deg, var(--cor-destaque), var(--cor-primaria));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.card-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #eef5ff; /* Um azul bem claro */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  position: absolute;
+  top: -40px; /* Posiciona o ícone metade para fora */
+  left: 50%;
+  transform: translateX(-50%);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card h3 {
+  color: var(--cor-primaria);
+  margin-bottom: 0.8rem;
+}
+
+.card p {
+  margin-bottom: 1.5rem;
+}
+
+.card-link {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--cor-primaria);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 74, 173, 0.15);
+}
+
+.card:hover .card-icon {
+  background-color: var(--cor-destaque);
+  color: var(--cor-secundaria);
+}
+
+.card:hover .card-link {
+  color: var(--cor-destaque);
+}
+
+/* ==============================
+   4.1 SEÇÃO DE UNIDADES
+============================== */
+.units {
+  scroll-margin-top: 130px;
+  /* Garante que a seção ocupe pelo menos 100% da altura da tela */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 2rem;
+  text-align: center;
+  /* Gradiente estático, usando o mesmo gradiente da seção Início mas com uma posição fixa */
+  background: linear-gradient(125deg, var(--cor-primaria), var(--cor-secundaria), var(--cor-destaque));
+  background-size: 200% 200%; /* Tamanho ajustado para o gradiente estático */
+  background-position: 75% 50%; /* Posição que destaca a transição de cores */
+}
+
+.units h2 {
+  font-size: 2.2rem;
+  /* Cor branca para destacar no fundo escuro */
+  color: var(--cor-branca);
+  margin-bottom: 1rem;
+}
+
+.units h2, .units .section-subtitle {
+  color: var(--cor-branca);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.units-content-wrapper {
+  display: flex;
+  align-items: center; /* Alinha verticalmente a lista e o mapa */
+  flex-wrap: wrap; /* Permite que os itens quebrem a linha */
+  gap: 3rem;
+  width: 100%;
+  max-width: 1200px; /* Aumenta a largura máxima para comportar o mapa */
+  margin: 0 auto; /* Garante que o wrapper fique centralizado */
+}
+
+.units-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1 1 600px; /* Permite flexibilidade com uma base de 600px */
+}
+
+.map-container {
+  flex: 1 1 400px; /* Permite flexibilidade com uma base de 400px */
+}
+
+.unit-list-item {
+  /* Efeito de vidro */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.unit-list-item:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.unit-info {
+  text-align: left;
+}
+
+.unit-info h3 {
+  font-size: 1.2rem;
+  color: var(--cor-branca);
+  margin-bottom: 0.3rem;
+}
+
+.unit-info p {
+  color: var(--cor-branca);
+  opacity: 0.8;
+}
+
+.unit-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--cor-branca);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+/* ==============================
+   5. RODAPÉ
+============================== */
+footer {
+  text-align: center;
+  background: var(--cor-secundaria);
+  color: var(--cor-branca);
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  margin-top: auto; /* Empurra o rodapé para o final da página */
+}
+
+footer a {
+  color: var(--cor-destaque);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--cor-branca);
+}
+
+/* Responsividade para a lista de unidades */
+@media (max-width: 768px) {
+  .units-content-wrapper {
+    flex-direction: column;
+  }
+
+  .unit-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .unit-actions {
+    width: 100%;
+  }
+}
