@@ -34,3 +34,14 @@
 .sobre-content p:last-child {
   margin-bottom: 0;
 }
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .sobre-container {
+    padding: 1.2rem;
+  }
+
+  .sobre-container h2 {
+    font-size: 1.6rem;
+  }
+}

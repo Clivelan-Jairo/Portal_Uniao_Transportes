@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
-import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
+import { FaEnvelope, FaPhoneAlt, FaBars, FaTimes } from 'react-icons/fa';
 
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <header id="header">
       {/* Linha superior com contatos e rastreio */}
@@ -26,13 +31,24 @@ function Header() {
           <div className="logo">
             <img src="/img/logo.png" alt="União Transportes" />
           </div>
-          <nav>
-            <ul>
-              <li><HashLink to="/#inicio">Início</HashLink></li>
-              <li><HashLink to="/#servicos">Serviços</HashLink></li>
-              <li><HashLink to="/#unidades">Unidades</HashLink></li>
-              <li><Link to="/sobre">Sobre</Link></li>
-              <li><Link to="/contato">Contato</Link></li>
+
+          {/* Botão de menu (visível em telas pequenas) */}
+          <button
+            className="menu-toggle"
+            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+
+          <nav className={menuOpen ? 'open' : ''}>
+            <ul className={menuOpen ? 'open' : ''}>
+              <li><HashLink to="/#inicio" onClick={closeMenu}>Início</HashLink></li>
+              <li><HashLink to="/#servicos" onClick={closeMenu}>Serviços</HashLink></li>
+              <li><HashLink to="/#unidades" onClick={closeMenu}>Unidades</HashLink></li>
+              <li><Link to="/sobre" onClick={closeMenu}>Sobre</Link></li>
+              <li><Link to="/contato" onClick={closeMenu}>Contato</Link></li>
             </ul>
           </nav>
         </div>
