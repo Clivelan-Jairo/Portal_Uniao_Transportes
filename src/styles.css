@@ -172,8 +172,9 @@ nav a:hover::after {
    3. SEÇÃO HERO (PRINCIPAL)
 ============================== */
 .hero {
-  /* Garante que a seção ocupe pelo menos 100% da altura da tela */
-  min-height: 100vh;
+  /* Usa a variável --vh para adaptar corretamente à altura da viewport (corrige diferenças entre navegadores) */
+  height: calc(var(--vh, 1vh) * 100);
+  min-height: 60vh; /* fallback caso --vh não esteja definido */
   display: flex;
   align-items: center;
   justify-content: center;
