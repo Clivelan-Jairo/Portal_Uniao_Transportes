@@ -651,10 +651,12 @@ nav ul li a {
 @media (max-width: 767px) {
   .header-top-bar {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.6rem 1rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem; /* reduzir fonte geral do sub-header em mobile */
+    overflow: hidden; /* evita overflow horizontal */
   }
 
   .contact-info {
@@ -662,6 +664,10 @@ nav ul li a {
     flex-direction: column;
     gap: 0.25rem;
     width: 100%;
+    font-size: 0.85rem; /* tamanho de fonte ligeiramente menor para contatos */
+    min-width: 0; /* permite encolher dentro do grid */
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   /* Cada linha de contato ocupa toda a largura da coluna esquerda */
@@ -677,10 +683,15 @@ nav ul li a {
     justify-self: end;
     align-self: center;
     margin: 0;
+    min-width: 0; /* permite encolher quando necessário */
   }
 
   .header-top-links a {
-    padding: 0.35rem 0.8rem;
+    padding: 0.22rem 0.5rem;
     display: inline-block;
+    font-size: 0.78rem; /* reduzir um pouco o texto do botão */
+    white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
