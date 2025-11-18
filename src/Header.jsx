@@ -16,6 +16,8 @@ function Header() {
       if (!el) return;
       const h = el.offsetHeight;
       document.documentElement.style.setProperty('--header-height', `${h}px`);
+      // também definir scroll-padding-top diretamente para compatibilidade
+      document.documentElement.style.scrollPaddingTop = `${h}px`;
     }
 
     setHeaderHeight();
@@ -23,26 +25,11 @@ function Header() {
     // caso o header mude após imagens carregarem
     window.addEventListener('load', setHeaderHeight);
 
-    // Observe mudanças de tamanho do header (ex.: imagens, mudanças dinâmicas)
-    let ro;
-    if (typeof ResizeObserver !== 'undefined') {
-      ro = new ResizeObserver(() => setHeaderHeight());
-      if (headerRef.current) ro.observe(headerRef.current);
-    }
-
     return () => {
       window.removeEventListener('resize', setHeaderHeight);
       window.removeEventListener('load', setHeaderHeight);
-      if (ro) ro.disconnect();
     };
   }, []);
-
-  // Helper para rolar até um elemento considerando a altura do header
-  function scrollToWithOffset(el) {
-    const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 0;
-    const top = el.getBoundingClientRect().top + window.pageYOffset - headerH;
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
 
   return (
     <header id="header" ref={headerRef}>
@@ -80,21 +67,9 @@ function Header() {
 
           <nav className={menuOpen ? 'open' : ''}>
             <ul className={menuOpen ? 'open' : ''}>
-                  <li>
-                    <HashLink to="/#inicio" onClick={closeMenu} scroll={scrollToWithOffset}>
-                      Início
-                      </HashLink>
-                  </li>
-                  <li>
-                      <HashLink to="/#servicos" onClick={closeMenu} scroll={scrollToWithOffset}>
-                        Serviços
-                      </HashLink>
-                  </li>
-                  <li>
-                      <HashLink to="/#unidades" onClick={closeMenu} scroll={scrollToWithOffset}>
-                        Unidades
-                      </HashLink>
-                  </li>
+              <li><HashLink to="/#inicio" onClick={closeMenu}>Início</HashLink></li>
+              <li><HashLink to="/#servicos" onClick={closeMenu}>Serviços</HashLink></li>
+              <li><HashLink to="/#unidades" onClick={closeMenu}>Unidades</HashLink></li>
               <li><Link to="/sobre" onClick={closeMenu}>Sobre</Link></li>
               <li><Link to="/contato" onClick={closeMenu}>Contato</Link></li>
             </ul>

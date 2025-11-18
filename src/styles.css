@@ -224,27 +224,29 @@ nav a:hover::after {
 }
 
 /* Posicionamento do letreiro (aparece vindo da direita sobre o banner) */
+/* Letreiro: alinhado à direita no desktop, responsivo. */
 .hero-title {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 2rem; /* espaço entre o letreiro e a borda direita */
   z-index: 3;
-  overflow: visible;
+  pointer-events: none;
 }
 
 .hero-title img {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translate(30%, -50%);
-  max-height: 100%;
-  height: 100%;
+  position: relative;
+  transform: none;
+  max-height: calc(100% - 2rem); /* deixa pequenas margens top/bottom */
+  max-width: 48%; /* não ultrapassar metade da largura do banner */
   width: auto;
+  height: auto;
   display: block;
-  opacity: 0;
+  opacity: 1;
   object-fit: contain;
-  animation: slideInRightFull 700ms cubic-bezier(.22,.9,.35,1) 220ms forwards;
+  animation: slideInRight 700ms cubic-bezier(.22,.9,.35,1) 220ms forwards;
 }
 
 
@@ -268,24 +270,21 @@ nav a:hover::after {
 @media (max-width: 767px) {
   .hero-anim-wrapper { display: block; flex-direction: column; gap: 0; }
 
-  /* No mobile queremos empilhar as duas imagens do hero, cada uma ocupando metade da altura do hero */
-  .hero-title,
-  .hero-map-wrapper {
-    position: relative; /* remove absolute para permitir empilhamento */
-    top: auto;
-    bottom: auto;
-    transform: none;
+  /* No mobile queremos que o letreiro ocupe largura completa, sem distorcer */
+  .hero-title {
+    position: relative;
+    padding: 0.5rem 0;
     width: 100%;
-    height: 50vh;
-    overflow: hidden;
+    height: auto;
+    display: block;
   }
 
-  .hero-title img,
-  .hero-map {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: none; /* remove translateX para aparição direta */
+  .hero-title img {
+    width: 90%;
+    max-width: 420px;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
     animation: none;
     opacity: 1;
   }
@@ -578,15 +577,152 @@ footer a:hover {
 @media (max-width: 768px) {
   .units-content-wrapper {
     flex-direction: column;
+    gap: 0.8rem; /* reduzir espaço entre lista e mapa */
+    align-items: flex-start; /* garantir que itens comecem pelo topo */
+  }
+
+  /* Força layout em linha: texto (coluna) à esquerda e ícones à direita,
+     mantém ícones alinhados na mesma linha e verticalmente centrados. */
+  .unit-list-item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.6rem 0.6rem; /* padding reduzido para aproximar o mapa */
+  }
+
+  .unit-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0; /* permite truncamento com text-overflow */
+    margin-right: 0.75rem;
+  }
+
+  /* Permitimos que o título quebre se necessário, mas limitamos com ellipsis
+     para evitar empurrar os ícones para baixo. */
+  .unit-info h3 {
+    font-size: 0.92rem; /* reduzido para evitar truncamento excessivo */
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .unit-info p {
+    font-size: 0.82rem; /* menor para compactar a informação */
+    margin: 0.06rem 0 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.9;
+  }
+
+  .unit-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  .unit-actions a {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .unit-actions svg {
+    width: 0.95em;
+    height: 0.95em;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Remover forcing de altura grande na seção e aproximar elementos */
+  .units {
+    min-height: auto !important;
+    padding: 1.8rem 0.75rem !important;
+  }
+
+  .units-list-container {
+    gap: 0.6rem !important;
+  }
+
+  .map-container {
+    margin-top: 0 !important;
+    flex: 0 0 auto !important; /* evita que o container mantenha uma altura base grande */
+    height: auto !important;
+    align-self: flex-start !important; /* garante que o mapa fique logo após os cards */
+    order: 1 !important;
+  }
+
+  .map-container img {
+    max-height: 30vh !important; /* reduzir ainda mais para ficar mais próximo */
+  }
+
+  /* Overrides adicionais para garantir que a lista não ocupe todo o espaço vertical */
+  .units-list-container {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .unit-list-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+    align-self: stretch !important;
   }
-  .unit-actions {
+}
+
+/* Ajustes específicos para o mapa em mobile (opção 1): reduzir altura e remover margin-top */
+@media (max-width: 768px) {
+  .map-container {
+    margin-top: 0 !important;
+  }
+
+  .map-container img {
+    max-height: 35vh !important; /* reduzido para ocupar menos espaço vertical */
+  }
+
+  /* reduzir um pouco o padding geral da seção para aproximar ainda mais */
+  .units {
+    padding: 2rem 0.75rem !important;
+  }
+}
+
+/* Evita overflow horizontal: reduz padding da seção e força box-sizing/widhts */
+@media (max-width: 768px) {
+  .units {
+    padding: 2rem 1rem; /* menos padding lateral em mobile */
+  }
+
+  .units-content-wrapper {
     width: 100%;
+    padding: 0;
+    gap: 1rem;
+    box-sizing: border-box;
+  }
+
+  .units-list-container,
+  .map-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .unit-list-item {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden; /* evita que sombras/borda estoure */
+  }
+
+  /* reduz gap/padding quando houver overflow ainda */
+  .unit-list-item .unit-info {
+    padding-right: 0.4rem;
   }
 }
 
@@ -691,6 +827,17 @@ nav ul li a {
   margin-top: 1rem;
 }
 
+/* Torna a imagem do mapa responsiva e limitada em altura no mobile
+   para que caiba na área visível da tela sem causar overflow. */
+.map-container img {
+  width: 100%;
+  height: auto;
+  max-height: 60vh; /* ocupa no máximo 60% da altura da viewport em mobile */
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
 /* Forms and pages: make containers flow vertically on mobile */
 .rastreio-page-container,
 .contato-container,
@@ -745,6 +892,47 @@ nav ul li a {
   .contato-container { padding: 2.5rem; }
 }
 
+/* Ajustes adicionais para a seção Unidades em telas pequenas:
+   reduz tamanho do texto e garante que os ícones fiquem lado a lado */
+@media (max-width: 768px) {
+  .unit-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1rem 1rem;
+  }
+
+  .unit-info h3 {
+    font-size: 1rem; /* menor para caber melhor */
+  }
+
+  .unit-info p {
+    font-size: 0.95rem;
+    margin-top: 0.15rem;
+  }
+
+  .unit-actions {
+    display: flex;
+    gap: 0.5rem; /* garante que os ícones fiquem em linha */
+    align-items: center;
+    margin-left: auto; /* empurra os ícones para a direita quando possível */
+  }
+
+  .unit-actions a {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .unit-actions svg {
+    width: 1.05em;
+    height: 1.05em;
+  }
+}
+
 @media (min-width: 1024px) {
   .container { max-width: 1200px; padding: 0 2rem; }
 }
@@ -773,6 +961,30 @@ nav ul li a {
     word-break: break-word;
   }
 
+  /* Força o email a tentar caber em uma linha e coloca o telefone abaixo
+     reduzindo sua fonte se necessário. Mantém ícones alinhados. */
+  .header-top-bar .contact-info span:first-child {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.82rem; /* reduz um pouco para tentar caber em uma linha */
+  }
+
+  .header-top-bar .contact-info span:last-child {
+    display: block;
+    font-size: 0.9rem;
+    margin-top: 0.08rem;
+  }
+
+  /* Garante que o ícone fique levemente menor no mobile para economizar espaço */
+  .header-top-bar .contact-info svg {
+    margin-right: 0.45rem;
+    vertical-align: middle;
+    width: 0.95em;
+    height: 0.95em;
+  }
+
   /* Cada linha de contato ocupa toda a largura da coluna esquerda */
   .contact-info span {
     width: 100%;
@@ -796,5 +1008,53 @@ nav ul li a {
     white-space: nowrap;
     max-width: 100%;
     box-sizing: border-box;
+  }
+}
+
+/* Ajuste extra para telas muito estreitas */
+@media (max-width: 420px) {
+  .map-container img {
+    max-height: 50vh;
+  }
+}
+
+/* Overrides fortes para garantir alinhamento dos ícones à direita em mobile */
+@media (max-width: 768px) {
+  .units .units-list-container .unit-list-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.6rem !important;
+    padding: 0.9rem 0.9rem !important;
+  }
+
+  .units .units-list-container .unit-info {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    margin-right: 0.75rem !important;
+  }
+
+  .units .units-list-container .unit-actions {
+    display: flex !important;
+    gap: 0.45rem !important;
+    align-items: center !important;
+    margin-left: auto !important;
+    flex: 0 0 auto !important;
+  }
+
+  .units .units-list-container .unit-info h3,
+  .units .units-list-container .unit-info p {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+  }
+
+  .units .units-list-container .unit-actions a {
+    width: 34px !important;
+    height: 34px !important;
   }
 }

@@ -1,3 +1,3 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializações globais (sem logging em produção)
+  console.log('Portal União Transportes carregado com sucesso!');
 });
