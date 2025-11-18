@@ -12,6 +12,9 @@
 }
 
 html {
+  font-size: 16px; /* normaliza o tamanho base (1rem = 16px) */
+  -webkit-text-size-adjust: 100%; /* evita autotext-size em mobile */
+  -ms-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
 

@@ -23,7 +23,7 @@ function RastreioPage() {
   return (
     <div className="container rastreio-page-container fade-up">
       <div className="rastreio-image-container">
-        <img src="/img/rastreio.jpg" alt="Nova ilustração para a página de rastreamento" />
+        <img src="/img/rastreio.png" alt="Nova ilustração para a página de rastreamento" />
       </div>
       <div className="rastreio-form-container">
         <div className="page-title-container">
