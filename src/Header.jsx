@@ -1,15 +1,38 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import { FaEnvelope, FaPhoneAlt, FaBars, FaTimes } from 'react-icons/fa';
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef(null);
 
   const closeMenu = () => setMenuOpen(false);
 
+  // Define uma variável CSS com a altura do header para ajustar o offset de scroll
+  useEffect(() => {
+    function setHeaderHeight() {
+      const el = headerRef.current;
+      if (!el) return;
+      const h = el.offsetHeight;
+      document.documentElement.style.setProperty('--header-height', `${h}px`);
+      // também definir scroll-padding-top diretamente para compatibilidade
+      document.documentElement.style.scrollPaddingTop = `${h}px`;
+    }
+
+    setHeaderHeight();
+    window.addEventListener('resize', setHeaderHeight);
+    // caso o header mude após imagens carregarem
+    window.addEventListener('load', setHeaderHeight);
+
+    return () => {
+      window.removeEventListener('resize', setHeaderHeight);
+      window.removeEventListener('load', setHeaderHeight);
+    };
+  }, []);
+
   return (
-    <header id="header">
+    <header id="header" ref={headerRef}>
       {/* Linha superior com contatos e rastreio */}
       <div className="header-top-bar">
         <div className="contact-info">

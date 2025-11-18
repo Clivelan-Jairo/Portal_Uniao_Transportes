@@ -16,6 +16,8 @@ html {
   -webkit-text-size-adjust: 100%; /* evita autotext-size em mobile */
   -ms-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* garante que o scroll para anchors considere o header sticky */
+  scroll-padding-top: var(--header-height, 130px);
 }
 
 * {
@@ -175,9 +177,11 @@ nav a:hover::after {
    3. SEÇÃO HERO (PRINCIPAL)
 ============================== */
 .hero {
-  /* Usa a variável --vh para adaptar corretamente à altura da viewport */
-  height: calc(var(--vh, 1vh) * 100);
-  min-height: 60vh; /* fallback caso --vh não esteja definido */
+  /* Usa a variável --vh para adaptar corretamente à altura da viewport
+     e subtrai a altura do header para que o final do #inicio fique
+     alinhado com o final da tela (considerando header sticky). */
+  height: calc((var(--vh, 1vh) * 100) - var(--header-height, 0px));
+  min-height: calc(60vh - var(--header-height, 0px)); /* fallback caso --vh não esteja definido */
   display: block;
   text-align: center;
   padding: 0; /* remover padding para imagem ocupar totalmente */
@@ -190,6 +194,11 @@ nav a:hover::after {
 
   /* Overlay escuro para manter contraste caso necessário */
   position: relative;
+}
+
+/* Garante que o alvo do hash (#inicio) seja compensado pelo header sticky */
+#inicio {
+  scroll-margin-top: var(--header-height, 130px);
 }
 
 /* Overlay escuro dentro da hero (opcional) */
@@ -211,40 +220,32 @@ nav a:hover::after {
   width: 100%;
   height: 100%;
   display: block;
+  pointer-events: none;
 }
 
-/* Posicionamento absoluto para permitir sobreposição das imagens */
-.hero-title,
-.hero-map-wrapper {
+/* Posicionamento do letreiro (aparece vindo da direita sobre o banner) */
+.hero-title {
   position: absolute;
-  inset: 0; /* ocupa toda a área do hero — mesmas coordenadas para sobreposição */
+  inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 3;
   overflow: visible;
 }
 
-.hero-title { left: 0; z-index: 2; }
-.hero-map-wrapper { left: 0; z-index: 3; }
-
-.hero-title img,
-.hero-map {
+.hero-title img {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  max-height: 85%;
+  right: 0;
+  transform: translate(30%, -50%);
+  max-height: 100%;
+  height: 100%;
   width: auto;
   display: block;
   opacity: 0;
-  object-fit: contain; /* mantém proporção, preserva transparência */
+  object-fit: contain;
+  animation: slideInRightFull 700ms cubic-bezier(.22,.9,.35,1) 220ms forwards;
 }
-
-/* Posicionamento sugerido: letreiro à esquerda, mapa à direita, ambos na mesma área */
-.hero-title img { left: 8%; animation: slideInLeft 700ms cubic-bezier(.22,.9,.35,1) 180ms forwards; opacity: 1; }
-.hero-map { right: 8%; animation: slideInRight 700ms cubic-bezier(.22,.9,.35,1) 380ms forwards; opacity: 1; }
-
-/* animações: partem deslocadas e se aproximam para o centro (criando sobreposição) */
-.hero-title img { transform: translateX(-30%); animation: slideInLeft 700ms cubic-bezier(.22,.9,.35,1) 180ms forwards; }
-.hero-map { transform: translateX(30%); animation: slideInRight 700ms cubic-bezier(.22,.9,.35,1) 380ms forwards; }
 
 
 @keyframes slideInLeft {
@@ -255,6 +256,11 @@ nav a:hover::after {
 @keyframes slideInRight {
   from { transform: translateX(40%); opacity: 0; }
   to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRightFull {
+  from { transform: translate(40%, -50%); opacity: 0; }
+  to   { transform: translate(0, -50%); opacity: 1; }
 }
 
 /* Brilho removido conforme solicitado */
