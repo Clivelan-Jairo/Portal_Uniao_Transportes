@@ -172,20 +172,114 @@ nav a:hover::after {
    3. SEÇÃO HERO (PRINCIPAL)
 ============================== */
 .hero {
-  /* Usa a variável --vh para adaptar corretamente à altura da viewport (corrige diferenças entre navegadores) */
+  /* Usa a variável --vh para adaptar corretamente à altura da viewport */
   height: calc(var(--vh, 1vh) * 100);
   min-height: 60vh; /* fallback caso --vh não esteja definido */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--cor-branca);
+  display: block;
   text-align: center;
-  padding: 8rem 2rem; /* Aumentei o padding para dar mais espaço */
+  padding: 0; /* remover padding para imagem ocupar totalmente */
 
-  /* Gradiente animado com as duas cores */
-  background: linear-gradient(125deg, var(--cor-primaria), var(--cor-secundaria), var(--cor-destaque));
-  background-size: 400% 400%;
-  animation: animacao-gradiente 15s ease infinite;
+  /* Imagem de fundo (banner) cobrindo toda a área */
+  background-image: url('/img/banner.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  /* Overlay escuro para manter contraste caso necessário */
+  position: relative;
+}
+
+/* Overlay escuro dentro da hero (opcional) */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25));
+  pointer-events: none;
+}
+
+/* -----------------------------
+   Hero animated layers (uses PNG files: letreiro.png and mapa.png)
+   ----------------------------- */
+.hero-anim-wrapper {
+  position: absolute; /* ocupa toda a área do hero */
+  inset: 0;
+  z-index: 2; /* acima do overlay */
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Posicionamento absoluto para permitir sobreposição das imagens */
+.hero-title,
+.hero-map-wrapper {
+  position: absolute;
+  inset: 0; /* ocupa toda a área do hero — mesmas coordenadas para sobreposição */
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.hero-title { left: 0; z-index: 2; }
+.hero-map-wrapper { left: 0; z-index: 3; }
+
+.hero-title img,
+.hero-map {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  max-height: 85%;
+  width: auto;
+  display: block;
+  opacity: 0;
+  object-fit: contain; /* mantém proporção, preserva transparência */
+}
+
+/* Posicionamento sugerido: letreiro à esquerda, mapa à direita, ambos na mesma área */
+.hero-title img { left: 8%; animation: slideInLeft 700ms cubic-bezier(.22,.9,.35,1) 180ms forwards; opacity: 1; }
+.hero-map { right: 8%; animation: slideInRight 700ms cubic-bezier(.22,.9,.35,1) 380ms forwards; opacity: 1; }
+
+/* animações: partem deslocadas e se aproximam para o centro (criando sobreposição) */
+.hero-title img { transform: translateX(-30%); animation: slideInLeft 700ms cubic-bezier(.22,.9,.35,1) 180ms forwards; }
+.hero-map { transform: translateX(30%); animation: slideInRight 700ms cubic-bezier(.22,.9,.35,1) 380ms forwards; }
+
+
+@keyframes slideInLeft {
+  from { transform: translateX(-40%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(40%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* Brilho removido conforme solicitado */
+
+@media (max-width: 767px) {
+  .hero-anim-wrapper { display: block; flex-direction: column; gap: 0; }
+
+  /* No mobile queremos empilhar as duas imagens do hero, cada uma ocupando metade da altura do hero */
+  .hero-title,
+  .hero-map-wrapper {
+    position: relative; /* remove absolute para permitir empilhamento */
+    top: auto;
+    bottom: auto;
+    transform: none;
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+  }
+
+  .hero-title img,
+  .hero-map {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: none; /* remove translateX para aparição direta */
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* Animação que move o gradiente */
