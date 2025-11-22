@@ -189,7 +189,7 @@ nav a:hover::after {
   /* Imagem de fundo (banner) cobrindo toda a área */
   background-image: url('/img/banner.png');
   background-size: cover;
-  background-position: center center;
+  background-position: left center; /* alinhar o banner ao início (lado esquerdo) por padrão */
   background-repeat: no-repeat;
 
   /* Overlay escuro para manter contraste caso necessário */
@@ -935,6 +935,17 @@ nav ul li a {
 
 @media (min-width: 1024px) {
   .container { max-width: 1200px; padding: 0 2rem; }
+  /* Desktop: alinhar o banner ao lado esquerdo para mostrar o início da imagem */
+  .hero { background-position: left center; background-size: cover; }
+}
+
+/* Em telas menores, manter alinhamento à esquerda e ajustar o background-size
+   para que a altura seja exibida (evita cortar a parte inicial da imagem) */
+@media (max-width: 1023px) {
+  .hero {
+    background-position: left center !important;
+    background-size: auto 100% !important; /* escala pela altura, preservando o início da imagem */
+  }
 }
 
 /* Sub-header (header-top-bar) responsivo: duas colunas em telas pequenas
