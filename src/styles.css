@@ -20,6 +20,19 @@ html {
   scroll-padding-top: var(--header-height, 130px);
 }
 
+/* Garante um offset consistente para todos os elementos com id (alvos de âncora)
+   e para o pseudo-seletor :target, evitando que fiquem encobertos pelo header sticky. */
+[id] {
+  scroll-margin-top: calc(var(--header-height, 130px) + 8px);
+  scroll-margin-block-start: calc(var(--header-height, 130px) + 8px);
+}
+
+:target {
+  /* reforça quando o navegador aplica o foco no elemento de destino */
+  scroll-margin-top: calc(var(--header-height, 130px) + 8px);
+  scroll-margin-block-start: calc(var(--header-height, 130px) + 8px);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -199,6 +212,11 @@ nav a:hover::after {
 /* Garante que o alvo do hash (#inicio) seja compensado pelo header sticky */
 #inicio {
   scroll-margin-top: var(--header-height, 130px);
+}
+
+/* Reforço específico para as seções Serviços e Unidades, evitando que fiquem ocultas pelo header */
+.services, .units {
+  scroll-margin-top: calc(var(--header-height, 130px) + 8px);
 }
 
 /* Overlay escuro dentro da hero (opcional) */

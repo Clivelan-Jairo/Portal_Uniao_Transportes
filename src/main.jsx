@@ -13,6 +13,84 @@ function setVhVariable() {
 setVhVariable();
 window.addEventListener('resize', setVhVariable);
 
+// Corrige scroll para âncoras considerando header sticky
+function scrollToHashWithOffset(delay = 60) {
+  if (!window.location.hash) return;
+  const hash = window.location.hash;
+  // espera um pouco para garantir que o conteúdo foi renderizado
+  const el = () => document.querySelector(hash);
+
+  // tenta obter altura do header (a partir da var CSS ou elemento header)
+  const getHeaderOffset = () => {
+    const headerHeightVar = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
+    let offset = 0;
+    if (headerHeightVar) {
+      const parsed = parseFloat(headerHeightVar);
+      if (!isNaN(parsed)) offset = parsed;
+    }
+    if (!offset) {
+      const hdr = document.querySelector('header');
+      if (hdr) offset = hdr.offsetHeight || 0;
+    }
+    return offset;
+  };
+
+  const start = performance.now();
+  const maxWait = delay;
+
+  // polling via rAF até encontrar o elemento e o header ter altura razoável
+  function tryScroll() {
+    const node = el();
+    const elapsed = performance.now() - start;
+    const offset = getHeaderOffset();
+    if (node && (offset > 0 || elapsed > 200 || node.getBoundingClientRect().height > 0)) {
+      const rectTop = node.getBoundingClientRect().top;
+      // Se já estiver alinhado com o header (diferença pequena), não faz nada.
+      const delta = rectTop - offset;
+      if (Math.abs(delta) <= 2) {
+        return; // já posicionado corretamente
+      }
+      const top = window.pageYOffset + rectTop - offset;
+      // usar comportamento instantâneo para evitar sensação de "travamento"
+      window.scrollTo({ top, behavior: 'auto' });
+      return;
+    }
+    if (elapsed < maxWait) {
+      requestAnimationFrame(tryScroll);
+    } else {
+      // timeout: tenta uma vez com o que tiver
+      const node2 = el();
+      if (node2) {
+        const rectTop2 = node2.getBoundingClientRect().top;
+        const top2 = window.pageYOffset + rectTop2 - getHeaderOffset();
+        window.scrollTo({ top: top2, behavior: 'auto' });
+      }
+    }
+  }
+
+  requestAnimationFrame(tryScroll);
+}
+
+// Ao mudar o hash via navegação interna, aumentar um pouco o delay
+// pois o conteúdo pode levar para renderizar dentro da SPA.
+window.addEventListener('hashchange', () => scrollToHashWithOffset(300));
+window.addEventListener('load', () => scrollToHashWithOffset(120));
+
+// Também lida com cliques em links âncora dentro da página (HashLink etc.).
+// Algumas bibliotecas fazem navegação SPA que podem não disparar hashchange
+// imediatamente ou o layout ainda não estar pronto — então chamamos a correção
+// após um pequeno atraso quando um link com hash é clicado.
+document.addEventListener('click', (e) => {
+  const a = (e.target && e.target.closest) ? e.target.closest('a[href*="#"]') : null;
+  if (!a) return;
+  try {
+    const url = new URL(a.href);
+    if (url.pathname !== window.location.pathname) return;
+  } catch (err) {
+    // não é URL absoluta — prosseguir
+  }
+  setTimeout(() => scrollToHashWithOffset(300), 40);
+});
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
