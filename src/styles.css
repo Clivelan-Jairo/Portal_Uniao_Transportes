@@ -356,6 +356,26 @@ nav a:hover::after {
   box-shadow: 0 7px 20px rgba(93, 224, 230, 0.4);
 }
 
+/* Tornar os botões de Rastreio e Contato iguais ao botão "Rastreamento" do header */
+.rastreio-form .btn-primary,
+.rastreio-form .form-buttons .btn-primary,
+.contato-form .btn-primary {
+  background: linear-gradient(135deg, #c81e1e, #a01818);
+  color: var(--cor-branca);
+  /* manter forma (border-radius, padding, box-shadow) do `.btn-primary` global */
+}
+
+/* Garantir que não haja borda visível nos botões destas páginas */
+.rastreio-form button,
+.rastreio-form .btn-primary,
+.contato-form button,
+.contato-form .btn-primary {
+  border: none !important;
+  outline: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* ==============================
    4. SEÇÃO DE SERVIÇOS E CARDS
 ============================== */
