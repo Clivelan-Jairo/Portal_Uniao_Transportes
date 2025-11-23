@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
 import './styles.css'
 
@@ -91,10 +91,30 @@ document.addEventListener('click', (e) => {
   }
   setTimeout(() => scrollToHashWithOffset(300), 40);
 });
+// Criar um router e ativar as future flags do React Router v7 (opt-in)
+function RootError() {
+  return (
+    <div style={{ padding: 40, textAlign: 'center' }}>
+      <h2>Oops — página não encontrada (404)</h2>
+      <p>Desculpe, não encontramos esta rota. Volte para a <a href="/">página inicial</a>.</p>
+    </div>
+  );
+}
+
+const router = createBrowserRouter(
+  [
+    { path: '/*', element: <App />, errorElement: <RootError /> },
+  ],
+  {
+    future: {
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+    },
+  }
+);
+
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <RouterProvider router={router} />
   </React.StrictMode>
 )

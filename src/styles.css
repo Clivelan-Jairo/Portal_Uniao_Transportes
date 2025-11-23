@@ -9,6 +9,11 @@
   --cor-texto: #3a3a3a;        /* Cor de texto principal */
   --cor-branca: #ffffff;
   --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Gradient palette (2 tons solicitados) */
+  --grad-blue-1: #5de0e6; /* tom claro/ciano (destaque) */
+  --grad-blue-2: #004aad; /* tom escuro/azul principal */
+  /* Header top gradient: two-color linear gradient (destaque -> primário) */
+  --header-top-gradient: linear-gradient(135deg, var(--grad-blue-1) 0%, var(--grad-blue-2) 100%);
 }
 
 html {
@@ -87,13 +92,23 @@ header {
 }
 
 .header-top-bar {
-  background-color: var(--cor-secundaria);
+  background: var(--header-top-gradient);
   color: var(--cor-branca);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.9rem 2rem;
   font-size: 0.85rem;
+  transition: background 300ms ease;
+}
+
+/* Contraste extra para links e textos sobre o gradiente */
+.header-top-bar, .header-top-bar * {
+  color: var(--cor-branca);
+}
+.header-top-links a {
+  text-shadow: 0 1px 3px rgba(0,0,0,0.28);
+  font-weight: 600;
 }
 
 .contact-info {
@@ -310,15 +325,8 @@ nav a:hover::after {
 
 /* Animação que move o gradiente */
 @keyframes animacao-gradiente {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .hero-content {
@@ -399,6 +407,307 @@ nav a:hover::after {
   color: var(--cor-primaria);
   margin-bottom: 2.5rem;
 }
+
+/* ==============================
+   TÍTULOS: cor por fundo
+   - Por padrão títulos em seções são azuis (para fundos brancos)
+   - Se a seção usar `.bg-colored` ou `.bg-dark` a variável muda para branco
+   - Fornece utilitários: `.bg-white` (fundo branco + títulos azuis) e
+     `.bg-colored` (fundo colorido + títulos brancos)
+============================== */
+section, .section {
+  --section-title-color: var(--cor-primaria);
+}
+
+/* aplicamos a variável nos headings mais comuns dentro de seções/pages */
+section h1, section h2, section h3,
+.section h1, .section h2, .section h3 {
+  color: var(--section-title-color);
+}
+
+/* utilitários para aplicar ao container da página/seção */
+.bg-white {
+  background-color: var(--cor-branca) !important;
+  --section-title-color: var(--cor-primaria) !important;
+}
+
+.bg-colored, .bg-dark {
+  --section-title-color: var(--cor-branca) !important;
+}
+
+/* Exceções específicas (mantemos regras existentes quando mais específicas) */
+.hero h2 { color: var(--cor-branca); }
+
+/* Padroniza títulos de página/section (usado por Sobre, Rastreio, Contato, Cidades atendidas) */
+.page-title-container {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.page-title-container h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--section-title-color, var(--cor-primaria));
+  margin: 0 auto 0.6rem;
+  font-family: inherit;
+}
+
+@media (max-width: 767px) {
+  .page-title-container h2 {
+    font-size: 1.6rem;
+  }
+}
+
+
+/* ==============================
+   CIDADES ATENDIDAS (MAPA + LISTA)
+   Mobile-first responsive styles
+============================== */
+.cidades-section {
+  padding: 2rem 0 3rem;
+}
+.cidades-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+}
+.cidades-map {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: visible;
+}
+.svg-map {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.map-legend {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.cidades-lists {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.city-block {
+  background: var(--cor-branca);
+  padding: 0.6rem;
+  border-radius: 8px;
+  box-shadow: var(--sombra-suave);
+}
+.cidades-search input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #e6eef6;
+  background: #fff;
+  outline: none;
+}
+.cidades-search input:focus {
+  box-shadow: 0 0 0 3px rgba(74, 122, 204, 0.12);
+  border-color: var(--cor-primaria);
+}
+.city-block ul {
+  list-style: none;
+  max-height: 44vh;
+  overflow: auto;
+  padding-right: 8px;
+}
+.city-block li {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.city-block li:hover {
+  background: #f6fbff;
+}
+.city-block li.selected {
+  background: var(--cor-primaria);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Desktop: place map and list side-by-side */
+@media (min-width: 900px) {
+  .cidades-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .cidades-map { width: 65%; }
+  .cidades-lists { width: 35%; }
+}
+
+
+/* ==============================
+   9. MAPA SVG (Cidades atendidas)
+   - Todo o mapa em azul claro por padrão
+   - PA e MT ficam em azul mais escuro ao serem ativados
+   - Hover/tooltip behavior ajustado
+============================== */
+.svg-map {
+  width: 100%;
+  max-width: 920px;
+  margin: 1.5rem auto;
+}
+
+.svg-map svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* cor padrão (todos os estados) */
+/* Tonalidade padrão dos estados (mais suave) — facilita destaque das linhas brancas */
+.svg-map svg path {
+  fill: #e8f9ff !important; /* azul muito claro, quase pastel */
+  filter: saturate(0.7) brightness(0.98) contrast(0.98);
+  /* linhas brancas nas divisões com sombra escura por trás */
+  stroke: #ffffff !important; /* branco nítido */
+  stroke-width: 0.8 !important;
+  stroke-linejoin: round !important;
+  stroke-linecap: round !important;
+  vector-effect: non-scaling-stroke !important; /* mantém a espessura ao escalonar o SVG */
+  /* sombra escura por trás para dar contraste em mapas claros/escuros */
+  filter: drop-shadow(0 0 0.6px rgba(2,18,44,0.6));
+  transition: fill 160ms ease, transform 160ms ease, filter 160ms ease, stroke-width 160ms ease;
+  cursor: pointer;
+}
+
+/* hover aplica classe 'hover' via JS */
+.svg-map svg path.hover {
+  fill: #9fd0ff !important; /* ligeiramente mais escuro ao pairar */
+  transform: translateY(-1px);
+  stroke: #ffffff !important;
+  stroke-width: 1.0 !important;
+  filter: drop-shadow(0 0 1px rgba(2,18,44,0.75));
+}
+
+/* Tornar os demais estados menos saturados para que a linha branca se destaque mais */
+.svg-map svg path:not(#BR-PA):not(#BR-MT) {
+  /* Estados não-PA/MT em azul mais escuro para melhor contraste com a linha branca */
+  fill: #6ea0d9 !important; /* azul escuro/moderado */
+  /* manter leve ajuste visual, sem dessaturar demais */
+  filter: saturate(0.95) brightness(0.95) contrast(0.98) !important;
+}
+
+/* Ao pairar em um estado não-PA/MT, aumentar contraste um pouco para feedback */
+.svg-map svg path:not(#BR-PA):not(#BR-MT).hover {
+  filter: saturate(0.85) brightness(0.99) contrast(1.02) drop-shadow(0 0 0.8px rgba(2,18,44,0.45));
+}
+
+/* estado genérico ativo (quando clicado) */
+.svg-map svg path.is-active {
+  fill: var(--cor-primaria) !important; /* azul principal */
+  stroke: #ffffff !important;
+  stroke-width: 1.4 !important;
+  filter: drop-shadow(0 0 1.6px rgba(2,18,44,0.85));
+}
+
+/* PA e MT específicos mais escuros quando ativos */
+.svg-map svg path#BR-PA.is-active,
+.svg-map svg path#BR-MT.is-active {
+  fill: #052b55 !important; /* azul bem escuro para destaque */
+}
+
+.svg-tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: rgba(5, 43, 85, 0.95);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  z-index: 9999;
+}
+
+.map-legend {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  justify-content: center;
+}
+
+.map-legend .legend-item {
+  background: rgba(255,255,255,0.95);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* Make PA and MT darker by default (not only when active) */
+.svg-map svg path#BR-PA,
+.svg-map svg path#BR-MT {
+  fill: #052b55 !important; /* azul bem escuro padrão */
+}
+
+/* If you want them slightly different when active, keep an even stronger color */
+.svg-map svg path#BR-PA.is-active,
+.svg-map svg path#BR-MT.is-active {
+  fill: #02162c !important;
+  stroke: rgba(0,0,0,0.12);
+  stroke-width: 0.4;
+}
+
+/* Ensure the SVG scales responsively (remove inline width/height on injected SVG) */
+.svg-map svg {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+
+/* ========== Prevent SVG clipping ========== */
+/* Force visible overflow on map containers and related page map wrappers so
+   the injected SVG can expand beyond its immediate container without being
+   cropped (fixes 'metade do mapa cortado'). Use !important sparingly to
+   override other layout rules that may set overflow:hidden. */
+.cidades-section,
+.cidades-map,
+.svg-map,
+.svg-map svg,
+.map-container,
+.units,
+.units-content-wrapper,
+.units-list-container,
+.rastreio-image-container,
+.rastreio-page-container,
+.contato-container {
+  overflow: visible !important;
+}
+
+/* Ensure the svg itself allows visible overflow for decorative strokes/shadows */
+.svg-map svg { overflow: visible; }
+
+/* Preserve pointer events and ensure the svg is not constrained by max-height rules */
+.svg-map svg, .map-container svg { display: block; width: 100%; height: auto; max-height: none; }
+
+/* Ajustes de stroke para telas pequenas (evita traços muito grossos no mobile) */
+@media (max-width: 600px) {
+  .svg-map svg path {
+    stroke-width: 0.5 !important;
+  }
+  .svg-map svg path.hover {
+    stroke-width: 0.7 !important;
+  }
+  .svg-map svg path.is-active {
+    stroke-width: 1.0 !important;
+  }
+}
+
+/* allow pointer events on paths (in case global rules disabled them) */
+.svg-map svg path {
+  pointer-events: all;
+}
+
 
 .section-subtitle {
   font-size: 1.1rem;
@@ -522,6 +831,95 @@ nav a:hover::after {
   max-width: 1200px; /* Aumenta a largura máxima para comportar o mapa */
   margin: 0 auto; /* Garante que o wrapper fique centralizado */
 }
+
+/* ==============================
+   CIDADES ATENDIDAS (PA + MT)
+============================== */
+.cidades-section {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  padding: 3rem 2rem;
+}
+.cidades-section .cidades-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.cidades-map {
+  flex: 1 1 420px;
+}
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  border-radius: 12px;
+}
+.map-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.marker {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(200,30,30,0.95);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border: 3px solid rgba(255,255,255,0.9);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+/* Ajuste aproximado das posições - ajuste conforme imagem */
+.marker-pa { left: 25%; top: 42%; }
+.marker-mt { left: 62%; top: 58%; }
+.marker.is-active { transform: translate(-50%, -50%) scale(1.08); outline: 4px solid rgba(200,30,30,0.14); }
+
+.map-legend { margin-top: 0.8rem; display:flex; gap:1rem; font-size:0.95rem; color:var(--cor-texto); }
+.map-legend .legend-item { display:inline-flex; align-items:center; gap:0.5rem; }
+
+.cidades-lists { flex: 1 1 480px; display:flex; flex-direction:column; gap:1rem; }
+.city-block { background: var(--cor-branca); border-radius: 10px; padding: 1rem; box-shadow: var(--sombra-suave); }
+.city-block.highlight { box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-left: 4px solid #c81e1e; }
+.city-block h3 { margin-bottom:0.6rem; }
+.city-block ul { list-style:none; padding-left:0; display:flex; flex-direction:column; gap:0.4rem; }
+.city-block li { cursor:pointer; padding:0.45rem 0.6rem; border-radius:6px; transition: background 0.15s ease; }
+.city-block li:hover { background: rgba(0,0,0,0.04); }
+
+@media (max-width: 900px) {
+  .cidades-content { flex-direction: column; }
+  .cidades-map, .cidades-lists { width: 100%; }
+  .marker { width: 36px; height: 36px; }
+}
+
+/* SVG map styles */
+.svg-map { position: relative; overflow: visible; min-width: 0; }
+.svg-map svg { width: 100%; height: auto; display: block; }
+
+/* Garantir que o contêiner da seção de cidades permita que o SVG seja visível
+  sem ser cortado por regras de overflow de antepassados. */
+.cidades-map { overflow: visible; min-width: 0; }
+.svg-region { cursor: pointer; transition: fill 180ms ease, transform 180ms ease, stroke 180ms ease; }
+.svg-region:hover { filter: brightness(0.95); transform: translateY(-2px); }
+.svg-region.is-active { filter: drop-shadow(0 8px 18px rgba(0,0,0,0.18)); opacity: 0.98; }
+.svg-tooltip {
+  position: fixed; /* usa fixed para não cortar com overflow */
+  transform: translate(-50%, -100%);
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  pointer-events: none;
+  z-index: 400;
+}
+
 
 .units-list-container {
   display: flex;

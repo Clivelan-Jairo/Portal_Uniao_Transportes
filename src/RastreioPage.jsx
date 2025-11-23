@@ -1,9 +1,10 @@
-import { useState } from 'react'; // Mantemos o useState para controlar os inputs
+import { useState, useRef } from 'react'; // Mantemos o useState para controlar os inputs
 import './RastreioPage.css';
 
 function RastreioPage() {
   const [cnpjdest, setCnpjdest] = useState('');
   const [numeroNota, setNumeroNota] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLimpar = () => {
     setCnpjdest('');
@@ -17,6 +18,9 @@ function RastreioPage() {
     } else if (numeroNota.trim() === '') {
       e.preventDefault();
       alert('Informe pelo menos uma Nota Fiscal.');
+    } else {
+      // permite o envio do form via POST em nova aba (comportamento anterior)
+      setLoading(true);
     }
   };
 
@@ -36,7 +40,7 @@ function RastreioPage() {
           name="form1"
           action="https://ssw.inf.br/2/ssw_resultSSW_dest_nro" 
           method="post"
-          target="_blank" // Abre o resultado em uma nova aba
+          target="ssw_iframe" // envia o resultado para o iframe embutido
           onSubmit={handleSubmit}
         >
           <div className="form-group">
@@ -55,6 +59,9 @@ function RastreioPage() {
             <button type="button" className="btn-secondary" onClick={handleLimpar}>Limpar</button>
           </div>
         </form>
+
+        {/* volta ao comportamento anterior: abre em nova aba */}
+        {/* nada a renderizar aqui */}
       </div>
     </div>
   );

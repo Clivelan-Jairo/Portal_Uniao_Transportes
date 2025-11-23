@@ -1,0 +1,125 @@
+import { useRef, useState } from 'react';
+
+const cidadesPA = [
+  'Santarém',
+  'Belém',
+  'Novo Progresso',
+  'Altamira',
+  'Marabá'
+];
+
+const cidadesMT = [
+  'Sinop',
+  'Cuiabá',
+  'Rondonópolis',
+  'Sorriso',
+  'Lucas do Rio Verde'
+];
+
+function CidadesAtendidas() {
+  const [active, setActive] = useState(null); // 'PA' | 'MT' | null
+  const [hoverInfo, setHoverInfo] = useState(null); // {name, x, y}
+  const paRef = useRef(null);
+  const mtRef = useRef(null);
+
+  function handleRegionHover(name, evt) {
+    const rect = evt.currentTarget.getBoundingClientRect();
+    setHoverInfo({ name, x: rect.left + rect.width / 2, y: rect.top });
+  }
+
+  function handleRegionLeave() {
+    setHoverInfo(null);
+  }
+
+  function handleRegionClick(state) {
+    setActive(state);
+    const ref = state === 'PA' ? paRef : mtRef;
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function openInMaps(city) {
+    const q = encodeURIComponent(city + ' Brasil');
+    window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank');
+  }
+
+  return (
+    <section id="cidades" className={`cidades-section fade-up ${active ? 'active' : ''}`}>
+      <h2>Cidades atendidas — PA e MT</h2>
+      <p className="section-subtitle">Lista de cidades atendidas nos estados do Pará e Mato Grosso.</p>
+
+      <div className="cidades-content">
+        <div className="cidades-map" aria-hidden="false">
+          <div className="svg-map">
+            {/* SVG simplificado com duas áreas representando PA (esquerda) e MT (direita) */}
+            <svg viewBox="0 0 800 420" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa do Pará e Mato Grosso">
+              <title>Mapa do Pará e Mato Grosso</title>
+              {/* Fundo neutro */}
+              <rect x="0" y="0" width="100%" height="100%" fill="transparent" />
+
+              {/* Pará - forma simplificada */}
+              <path
+                d="M40 60 C120 10, 240 10, 300 70 C340 110, 320 180, 280 210 C220 250, 160 240, 100 220 C60 200, 40 140, 40 60 Z"
+                className={`svg-region ${active === 'PA' ? 'is-active' : ''}`}
+                fill="#e6f2ff"
+                stroke="#a3c2e6"
+                strokeWidth="2"
+                onMouseEnter={(e) => handleRegionHover('Pará', e)}
+                onMouseMove={(e) => handleRegionHover('Pará', e)}
+                onMouseLeave={handleRegionLeave}
+                onClick={() => handleRegionClick('PA')}
+              />
+
+              {/* Mato Grosso - forma simplificada */}
+              <path
+                d="M420 160 C480 120, 600 110, 740 140 C760 220, 680 300, 600 320 C540 335, 480 320, 440 290 C420 260, 420 200, 420 160 Z"
+                className={`svg-region ${active === 'MT' ? 'is-active' : ''}`}
+                fill="#fff0e6"
+                stroke="#f0c9a8"
+                strokeWidth="2"
+                onMouseEnter={(e) => handleRegionHover('Mato Grosso', e)}
+                onMouseMove={(e) => handleRegionHover('Mato Grosso', e)}
+                onMouseLeave={handleRegionLeave}
+                onClick={() => handleRegionClick('MT')}
+              />
+            </svg>
+
+            {hoverInfo && (
+              <div className="svg-tooltip" style={{ left: hoverInfo.x, top: hoverInfo.y - 12 }}>
+                {hoverInfo.name}
+              </div>
+            )}
+          </div>
+
+          <div className="map-legend">
+            <span className="legend-item"><strong>PA</strong> — Pará</span>
+            <span className="legend-item"><strong>MT</strong> — Mato Grosso</span>
+          </div>
+        </div>
+
+        <div className="cidades-lists">
+          <div className={`city-block ${active === 'PA' ? 'highlight' : ''}`} ref={paRef}>
+            <h3>Pará (PA)</h3>
+            <ul>
+              {cidadesPA.map((c) => (
+                <li key={c} onClick={() => openInMaps(c)}>{c}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={`city-block ${active === 'MT' ? 'highlight' : ''}`} ref={mtRef}>
+            <h3>Mato Grosso (MT)</h3>
+            <ul>
+              {cidadesMT.map((c) => (
+                <li key={c} onClick={() => openInMaps(c)}>{c}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default CidadesAtendidas;
