@@ -1,0 +1,58 @@
+.clients-carousel {
+  width: 100%;
+  padding: 1.2rem 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  animation: scrollLeft 24s linear infinite;
+  padding-left: 2rem;
+}
+
+/* Caixa fixa para cada logo - todas terão o mesmo tamanho
+   Ajuste as variáveis abaixo conforme preferência */
+:root {
+  --client-box-w: 140px;
+  --client-box-h: 72px;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--client-box-w);
+  height: var(--client-box-h);
+  box-sizing: border-box;
+}
+
+.carousel-item img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  opacity: 0.95;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+.carousel-item img:hover { transform: scale(1.06); opacity: 1; }
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .carousel-item img { height: 40px; }
+  .carousel-track { gap: 1.2rem; animation-duration: 18s; }
+}
+@media (min-width: 1200px) {
+  .carousel-item img { height: 72px; }
+  .carousel-track { gap: 2.5rem; animation-duration: 28s; }
+}
