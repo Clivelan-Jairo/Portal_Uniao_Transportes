@@ -13,6 +13,7 @@ const logos = [
   '/img/clientes/logo8.png',
   '/img/clientes/logo9.png',
   '/img/clientes/logo10.png',
+  '/img/clientes/logo11.png',
 ];
 
 export default function ClientCarousel({ items = logos }) {

@@ -3,6 +3,11 @@
   padding: 1.2rem 0;
   background: transparent;
   overflow: hidden;
+  /* mais natural: menor deslocamento e desfoque, opacidade reduzida */
+  box-shadow: 0 6px 18px rgba(2,18,44,0.06);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.01);
+  position: relative;
 }
 
 .carousel-track {
@@ -56,3 +61,6 @@
   .carousel-item img { height: 72px; }
   .carousel-track { gap: 2.5rem; animation-duration: 28s; }
 }
+
+/* Sombra extra sob a pista do carrossel */
+.carousel-track { position: relative; z-index: 2; }
