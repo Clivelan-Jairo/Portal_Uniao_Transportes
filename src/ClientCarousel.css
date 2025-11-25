@@ -54,12 +54,37 @@
 }
 
 @media (max-width: 768px) {
-  .carousel-item img { height: 40px; }
+  .carousel-item img { height: 52px; }
   .carousel-track { gap: 1.2rem; animation-duration: 18s; }
 }
 @media (min-width: 1200px) {
   .carousel-item img { height: 72px; }
   .carousel-track { gap: 2.5rem; animation-duration: 28s; }
+}
+
+/* Responsividade: ajustar tamanho das caixas e gaps em breakpoints */
+@media (max-width: 1024px) {
+  :root { --client-box-w: 120px; --client-box-h: 64px; }
+  .clients-carousel { padding: 1rem 0; }
+  .carousel-track { padding-left: 1rem; gap: 1.6rem; }
+}
+
+@media (max-width: 768px) {
+  :root { --client-box-w: 100px; --client-box-h: 52px; }
+  .clients-carousel { padding: 0.8rem 0; }
+  .carousel-track { animation-duration: 16s; padding-left: 0.8rem; gap: 1.2rem; }
+}
+
+@media (max-width: 420px) {
+  :root { --client-box-w: 84px; --client-box-h: 56px; }
+  .carousel-track { animation-duration: 12s; gap: 0.9rem; padding-left: 0.6rem; }
+  .carousel-item img { height: 56px; }
+}
+
+/* Pausa a animação quando o usuário interage (hover/focus) para facilitar leitura */
+.clients-carousel:hover .carousel-track,
+.clients-carousel:focus-within .carousel-track {
+  animation-play-state: paused;
 }
 
 /* Sombra extra sob a pista do carrossel */
