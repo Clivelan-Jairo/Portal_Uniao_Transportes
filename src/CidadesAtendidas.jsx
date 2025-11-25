@@ -9,6 +9,7 @@ const uniqueCidadesMT = Array.from(new Set(cidadesMT));
 function CidadesAtendidas() {
   const [active, setActive] = useState(null); // 'PA' | 'MT' | null
   const [switching, setSwitching] = useState(false);
+  const [prevActive, setPrevActive] = useState(null);
   const [hoverInfo, setHoverInfo] = useState(null); // {name, x, y}
   const [paFilter, setPaFilter] = useState('');
   const [mtFilter, setMtFilter] = useState('');
@@ -70,6 +71,10 @@ function CidadesAtendidas() {
         });
 
         container.innerHTML = cleaned;
+        // Force a small delay and then add class to trigger CSS transition
+        setTimeout(() => {
+          try { container.classList.add('visible'); } catch (e) { /* ignore */ }
+        }, 40);
         const svgRoot = container.querySelector('svg');
         if (!svgRoot) return;
 
@@ -112,11 +117,15 @@ function CidadesAtendidas() {
             ev?.preventDefault?.();
             ev?.stopPropagation?.();
             console.log('[Cidades] click PA handler, activeRef:', activeRef.current);
-            // Show the list immediately. If switching from another state, keep switching flag for animation.
+            // Show the list immediately. If switching from another state, record previous active
             if (activeRef.current && activeRef.current !== 'PA') {
+              setPrevActive(activeRef.current);
               setSwitching(true);
               setActive('PA');
-              setTimeout(() => setSwitching(false), 300);
+              setTimeout(() => {
+                setSwitching(false);
+                setPrevActive(null);
+              }, 350);
             } else {
               setActive('PA');
             }
@@ -129,11 +138,15 @@ function CidadesAtendidas() {
             ev?.preventDefault?.();
             ev?.stopPropagation?.();
             console.log('[Cidades] click MT handler, activeRef:', activeRef.current);
-            // Show the list immediately. If switching from another state, keep switching flag for animation.
+            // Show the list immediately. If switching from another state, record previous active
             if (activeRef.current && activeRef.current !== 'MT') {
+              setPrevActive(activeRef.current);
               setSwitching(true);
               setActive('MT');
-              setTimeout(() => setSwitching(false), 300);
+              setTimeout(() => {
+                setSwitching(false);
+                setPrevActive(null);
+              }, 350);
             } else {
               setActive('MT');
             }
@@ -253,13 +266,9 @@ function CidadesAtendidas() {
         </div>
 
         <div className="cidades-lists" ref={listsRef} aria-hidden={active ? 'false' : 'true'}>
-          <div className="lists-header">
-            <button className="lists-back-btn" onClick={() => { setActive(null); setSelectedCity(null); }} aria-label="Fechar lista">← Voltar</button>
-            <h3 className="lists-title">Cidades</h3>
-          </div>
 
           {active === 'PA' && (
-            <div className={`city-block ${active === 'PA' ? 'highlight' : ''} ${switching ? 'switching' : ''}`} ref={paRef}>
+            <div className={`city-block ${active === 'PA' ? 'highlight' : ''} ${switching && active === 'PA' ? 'entering' : ''} ${prevActive === 'PA' ? 'leaving' : ''}`} ref={paRef}>
               <h3>Pará (PA)</h3>
               <div className="cidades-search">
                 <input
@@ -299,7 +308,7 @@ function CidadesAtendidas() {
           
 
           {active === 'MT' && (
-            <div className={`city-block ${active === 'MT' ? 'highlight' : ''} ${switching ? 'switching' : ''}`} ref={mtRef}>
+            <div className={`city-block ${active === 'MT' ? 'highlight' : ''} ${switching && active === 'MT' ? 'entering' : ''} ${prevActive === 'MT' ? 'leaving' : ''}`} ref={mtRef}>
               <h3>Mato Grosso (MT)</h3>
               <div className="cidades-search">
                 <input
