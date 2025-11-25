@@ -4,45 +4,47 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
 import './styles.css'
 
-// Logger cliente para debug: salva erros e rejections em localStorage
-;(function() {
-  function pushEntry(entry) {
-    try {
-      const arr = JSON.parse(localStorage.getItem('dev_client_errors') || '[]');
-      arr.push(entry);
-      localStorage.setItem('dev_client_errors', JSON.stringify(arr.slice(-200)));
-    } catch (e) { /* ignore */ }
-  }
+// Logger cliente para debug: salva erros e rejections em localStorage (apenas em desenvolvimento)
+if (import.meta.env.DEV) {
+  ;(function() {
+    function pushEntry(entry) {
+      try {
+        const arr = JSON.parse(localStorage.getItem('dev_client_errors') || '[]');
+        arr.push(entry);
+        localStorage.setItem('dev_client_errors', JSON.stringify(arr.slice(-200)));
+      } catch (e) { /* ignore */ }
+    }
 
-  window.addEventListener('error', function(e) {
-    pushEntry({
-      type: 'error',
-      message: e.message,
-      filename: e.filename,
-      lineno: e.lineno,
-      colno: e.colno,
-      stack: e.error && e.error.stack ? e.error.stack : null,
-      href: location.href,
-      time: Date.now()
-    });
-  }, true);
+    window.addEventListener('error', function(e) {
+      pushEntry({
+        type: 'error',
+        message: e.message,
+        filename: e.filename,
+        lineno: e.lineno,
+        colno: e.colno,
+        stack: e.error && e.error.stack ? e.error.stack : null,
+        href: location.href,
+        time: Date.now()
+      });
+    }, true);
 
-  window.addEventListener('unhandledrejection', function(e) {
-    const reason = e.reason;
-    pushEntry({
-      type: 'unhandledrejection',
-      message: reason && reason.message ? reason.message : String(reason),
-      stack: reason && reason.stack ? reason.stack : null,
-      href: location.href,
-      time: Date.now()
-    });
-  }, true);
+    window.addEventListener('unhandledrejection', function(e) {
+      const reason = e.reason;
+      pushEntry({
+        type: 'unhandledrejection',
+        message: reason && reason.message ? reason.message : String(reason),
+        stack: reason && reason.stack ? reason.stack : null,
+        href: location.href,
+        time: Date.now()
+      });
+    }, true);
 
-  // expor helper rápido para inspecionar no console
-  window.__getDevClientErrors = function() {
-    try { return JSON.parse(localStorage.getItem('dev_client_errors') || '[]'); } catch(e) { return []; }
-  };
-})();
+    // expor helper rápido para inspecionar no console
+    window.__getDevClientErrors = function() {
+      try { return JSON.parse(localStorage.getItem('dev_client_errors') || '[]'); } catch(e) { return []; }
+    };
+  })();
+}
 
 // Definir variável CSS --vh baseada na altura da viewport
 function setVhVariable() {

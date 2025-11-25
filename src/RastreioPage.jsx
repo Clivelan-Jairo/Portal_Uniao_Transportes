@@ -52,7 +52,10 @@ function RastreioPage() {
         setLoading(true);
         setResultHtml(null);
 
-        const endpoint = '/api/trackingdest';
+        // Use VITE_API_BASE em produção para apontar para o backend real.
+        // Em desenvolvimento mantemos o caminho relativo (o Vite proxy cuida do redirecionamento).
+        const API_BASE = import.meta.env.VITE_API_BASE || '';
+        const endpoint = `${API_BASE}/api/trackingdest`;
         const body = new URLSearchParams();
         body.append('cnpjdest', cnpjClean);
         // Alguns endpoints aceitam o nome 'cnpj' em vez de 'cnpjdest'.

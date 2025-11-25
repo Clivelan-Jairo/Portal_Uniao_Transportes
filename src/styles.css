@@ -572,8 +572,8 @@ section h1, section h2, section h3,
    adicionada a classe `.visible`. Isso previne a 'tela invisível' quando
    o observador de visibilidade não dispara. */
 .cidades-section.fade-up {
-  opacity: 1 !important;
-  transform: none !important;
+  opacity: 1;
+  transform: none;
 }
 
 .cidades-content {
