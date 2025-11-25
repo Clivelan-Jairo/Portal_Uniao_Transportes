@@ -2,8 +2,13 @@ import { useRef, useState, useEffect } from 'react';
 import cidadesPA from './data/cidades_pa.json';
 import cidadesMT from './data/cidades_mt.json';
 
+// remove duplicates that can appear in the source JSON files
+const uniqueCidadesPA = Array.from(new Set(cidadesPA));
+const uniqueCidadesMT = Array.from(new Set(cidadesMT));
+
 function CidadesAtendidas() {
   const [active, setActive] = useState(null); // 'PA' | 'MT' | null
+  const [switching, setSwitching] = useState(false);
   const [hoverInfo, setHoverInfo] = useState(null); // {name, x, y}
   const [paFilter, setPaFilter] = useState('');
   const [mtFilter, setMtFilter] = useState('');
@@ -12,6 +17,12 @@ function CidadesAtendidas() {
   const mtRef = useRef(null);
   const svgRef = useRef(null);
   const cityRefs = useRef({});
+  const listsRef = useRef(null);
+  const activeRef = useRef(active);
+
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
 
   useEffect(() => {
     const container = svgRef.current;
@@ -100,8 +111,15 @@ function CidadesAtendidas() {
           try {
             ev?.preventDefault?.();
             ev?.stopPropagation?.();
-            setActive('PA');
-            if (paRef.current) paRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            console.log('[Cidades] click PA handler, activeRef:', activeRef.current);
+            // Show the list immediately. If switching from another state, keep switching flag for animation.
+            if (activeRef.current && activeRef.current !== 'PA') {
+              setSwitching(true);
+              setActive('PA');
+              setTimeout(() => setSwitching(false), 300);
+            } else {
+              setActive('PA');
+            }
           } catch (e) {
             console.error('click PA handler error', e);
           }
@@ -110,8 +128,15 @@ function CidadesAtendidas() {
           try {
             ev?.preventDefault?.();
             ev?.stopPropagation?.();
-            setActive('MT');
-            if (mtRef.current) mtRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            console.log('[Cidades] click MT handler, activeRef:', activeRef.current);
+            // Show the list immediately. If switching from another state, keep switching flag for animation.
+            if (activeRef.current && activeRef.current !== 'MT') {
+              setSwitching(true);
+              setActive('MT');
+              setTimeout(() => setSwitching(false), 300);
+            } else {
+              setActive('MT');
+            }
           } catch (e) {
             console.error('click MT handler error', e);
           }
@@ -165,7 +190,41 @@ function CidadesAtendidas() {
     if (mtNode) {
       if (active === 'MT') mtNode.classList.add('is-active'); else mtNode.classList.remove('is-active');
     }
+    // debug log when active changes
+    try {
+      const listEl = listsRef.current;
+      const cs = listEl ? window.getComputedStyle(listEl) : null;
+      console.log('[Cidades] active effect -> active:', active, 'listsRef present:', !!listEl, 'computed:', cs ? { display: cs.display, opacity: cs.opacity, transform: cs.transform, position: cs.position } : null);
+    } catch (e) {
+      console.error('[Cidades] error reading computed style', e);
+    }
   }, [active]);
+
+  // When `active` changes, scroll the corresponding block into view inside the lists container.
+  useEffect(() => {
+    const listContainer = listsRef.current;
+    if (!listContainer || !active) return;
+    const target = active === 'PA' ? paRef.current : active === 'MT' ? mtRef.current : null;
+    if (!target) return;
+
+    const doScroll = () => {
+      try {
+        console.log('[Cidades] doScroll start, active:', active, 'listContainer present:', !!listContainer, 'target present:', !!target);
+        const offset = target.offsetTop - listContainer.offsetTop - (listContainer.clientHeight / 2) + (target.clientHeight / 2);
+        listContainer.scrollTo({ top: Math.max(0, offset), behavior: 'smooth' });
+        console.log('[Cidades] doScroll finished');
+      } catch (e) {
+        console.error('scroll-on-active error', e);
+      }
+    };
+
+    if (switching) {
+      const id = setTimeout(doScroll, 350);
+      return () => clearTimeout(id);
+    }
+    const id = setTimeout(doScroll, 50);
+    return () => clearTimeout(id);
+  }, [active, switching]);
 
   function openInMaps(city) {
     const q = encodeURIComponent(city + ' Brasil');
@@ -174,10 +233,13 @@ function CidadesAtendidas() {
 
   return (
     <section id="cidades" className={`cidades-section fade-up ${active ? 'active' : ''}`}>
-      <h2>Cidades atendidas</h2>
-      <p className="section-subtitle">Lista de cidades atendidas nos estados do Pará e Mato Grosso.</p>
+      <div className="container">
+        <div className="page-title-container">
+          <h2>Cidades atendidas</h2>
+        </div>
+        <p className="section-subtitle">Lista de cidades atendidas nos estados do Pará e Mato Grosso.</p>
 
-      <div className="cidades-content">
+        <div className="cidades-content">
         <div className="cidades-map" aria-hidden="false">
           <div className="svg-map" ref={svgRef}></div>
 
@@ -187,87 +249,93 @@ function CidadesAtendidas() {
             </div>
           )}
 
-          <div className="map-legend">
-            <span className="legend-item"><strong>PA</strong> — Pará</span>
-            <span className="legend-item"><strong>MT</strong> — Mato Grosso</span>
-          </div>
+          {/* legend intentionally removed: map is shown centered initially */}
         </div>
 
-        <div className="cidades-lists">
-          <div className={`city-block ${active === 'PA' ? 'highlight' : ''}`} ref={paRef}>
-            <h3>Pará (PA)</h3>
-            <div className="cidades-search">
-              <input
-                type="search"
-                placeholder="Buscar cidade no Pará..."
-                value={paFilter}
-                onChange={(e) => setPaFilter(e.target.value)}
-                aria-label="Buscar cidade"
-              />
-            </div>
-            <ul>
-              {cidadesPA
-                .filter((c) => c.toLowerCase().includes(paFilter.trim().toLowerCase()))
-                .map((c) => (
-                  <li
-                    key={`PA:${c}`}
-                    ref={(el) => (cityRefs.current[`PA:${c}`] = el)}
-                    className={selectedCity === `PA:${c}` ? 'selected' : ''}
-                    onClick={(ev) => {
-                      try {
-                        ev?.preventDefault?.();
-                        setActive('PA');
-                        setSelectedCity(`PA:${c}`);
-                        const el = cityRefs.current[`PA:${c}`];
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        openInMaps(c);
-                      } catch (e) {
-                        console.error('click city error', e);
-                      }
-                    }}
-                  >
-                    {c}
-                  </li>
-                ))}
-            </ul>
+        <div className="cidades-lists" ref={listsRef} aria-hidden={active ? 'false' : 'true'}>
+          <div className="lists-header">
+            <button className="lists-back-btn" onClick={() => { setActive(null); setSelectedCity(null); }} aria-label="Fechar lista">← Voltar</button>
+            <h3 className="lists-title">Cidades</h3>
           </div>
 
-          <div className={`city-block ${active === 'MT' ? 'highlight' : ''}`} ref={mtRef}>
-            <h3>Mato Grosso (MT)</h3>
-            <div className="cidades-search">
-              <input
-                type="search"
-                placeholder="Buscar cidade no Mato Grosso..."
-                value={mtFilter}
-                onChange={(e) => setMtFilter(e.target.value)}
-                aria-label="Buscar cidade MT"
-              />
+          {active === 'PA' && (
+            <div className={`city-block ${active === 'PA' ? 'highlight' : ''} ${switching ? 'switching' : ''}`} ref={paRef}>
+              <h3>Pará (PA)</h3>
+              <div className="cidades-search">
+                <input
+                  type="search"
+                  placeholder="Buscar cidade no Pará..."
+                  value={paFilter}
+                  onChange={(e) => setPaFilter(e.target.value)}
+                  aria-label="Buscar cidade"
+                />
+              </div>
+              <ul>
+                {uniqueCidadesPA
+                  .filter((c) => c.toLowerCase().includes(paFilter.trim().toLowerCase()))
+                  .map((c) => (
+                    <li
+                      key={`PA:${c}`}
+                      ref={(el) => (cityRefs.current[`PA:${c}`] = el)}
+                      className={selectedCity === `PA:${c}` ? 'selected' : ''}
+                      onClick={(ev) => {
+                        try {
+                          ev?.preventDefault?.();
+                          setSelectedCity(`PA:${c}`);
+                          const el = cityRefs.current[`PA:${c}`];
+                          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          openInMaps(c);
+                        } catch (e) {
+                          console.error('click city error', e);
+                        }
+                      }}
+                    >
+                      {c}
+                    </li>
+                  ))}
+              </ul>
             </div>
-            <ul>
-              {cidadesMT
-                .filter((c) => c.toLowerCase().includes(mtFilter.trim().toLowerCase()))
-                .map((c) => (
-                  <li
-                    key={`MT:${c}`}
-                    ref={(el) => (cityRefs.current[`MT:${c}`] = el)}
-                    className={selectedCity === `MT:${c}` ? 'selected' : ''}
-                    onClick={(ev) => {
-                      try {
-                        ev?.preventDefault?.();
-                        setActive('MT');
-                        setSelectedCity(`MT:${c}`);
-                        const el = cityRefs.current[`MT:${c}`];
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        openInMaps(c);
-                      } catch (e) {
-                        console.error('click MT city error', e);
-                      }
-                    }}
-                  >{c}</li>
-                ))}
-            </ul>
-          </div>
+          )}
+          
+
+          {active === 'MT' && (
+            <div className={`city-block ${active === 'MT' ? 'highlight' : ''} ${switching ? 'switching' : ''}`} ref={mtRef}>
+              <h3>Mato Grosso (MT)</h3>
+              <div className="cidades-search">
+                <input
+                  type="search"
+                  placeholder="Buscar cidade no Mato Grosso..."
+                  value={mtFilter}
+                  onChange={(e) => setMtFilter(e.target.value)}
+                  aria-label="Buscar cidade MT"
+                />
+              </div>
+              <ul>
+                {uniqueCidadesMT
+                  .filter((c) => c.toLowerCase().includes(mtFilter.trim().toLowerCase()))
+                  .map((c) => (
+                    <li
+                      key={`MT:${c}`}
+                      ref={(el) => (cityRefs.current[`MT:${c}`] = el)}
+                      className={selectedCity === `MT:${c}` ? 'selected' : ''}
+                      onClick={(ev) => {
+                        try {
+                          ev?.preventDefault?.();
+                          setSelectedCity(`MT:${c}`);
+                          const el = cityRefs.current[`MT:${c}`];
+                          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          openInMaps(c);
+                        } catch (e) {
+                          console.error('click MT city error', e);
+                        }
+                      }}
+                    >{c}</li>
+                  ))}
+              </ul>
+            </div>
+          )}
         </div>
+      </div>
       </div>
     </section>
   );

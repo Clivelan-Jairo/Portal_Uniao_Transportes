@@ -1,7 +1,9 @@
 function Unidades() {
   return (
     <section id="unidades" className="units fade-up">
-      <h2>Nossas Unidades</h2>
+      <div className="page-title-container">
+        <h2>Nossas Unidades</h2>
+      </div>
       <p className="section-subtitle">Estamos estrategicamente localizados para conectar o Brasil.</p>
       <div className="units-content-wrapper">
         <div className="units-list-container">

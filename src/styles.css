@@ -448,7 +448,7 @@ section h1, section h2, section h3,
   font-weight: 700;
   line-height: 1.15;
   color: var(--section-title-color, var(--cor-primaria));
-  margin: 0 auto 0.6rem;
+  margin: 0 auto 0.35rem; /* reduz espaço abaixo do título para aproximar do subtítulo */
   font-family: inherit;
 }
 
@@ -464,7 +464,8 @@ section h1, section h2, section h3,
    Mobile-first responsive styles
 ============================== */
 .cidades-section {
-  padding: 2rem 0 3rem;
+  /* leave room for sticky header so the map and title are not hidden under it */
+  padding: calc(var(--header-height, 130px) + 1rem) 0 3rem;
 }
 .cidades-content {
   display: flex;
@@ -552,9 +553,112 @@ section h1, section h2, section h3,
 ============================== */
 .svg-map {
   width: 100%;
-  max-width: 920px;
+  max-width: 820px;
   margin: 1.5rem auto;
+  box-sizing: border-box;
 }
+
+/* Initial centered map view: when no state active, keep only the map visible centered
+   When `.cidades-section.active` is set, slide the map left and reveal the lists on the right. */
+
+:root { --lists-width: 380px; }
+
+.cidades-section {
+  position: relative;
+}
+
+/* Exigir que a seção de Cidades esteja visível por padrão para evitar
+   comportamento em que a classe `.fade-up` mantém opacity:0 se não for
+   adicionada a classe `.visible`. Isso previne a 'tela invisível' quando
+   o observador de visibilidade não dispara. */
+.cidades-section.fade-up {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.cidades-content {
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1);
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
+  width: 100%;
+}
+
+.cidades-map {
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.cidades-lists {
+  width: var(--lists-width);
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1), opacity 240ms ease;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Entry effect for the map (scale + fade) */
+
+.svg-map { transform-origin: center; opacity: 0; transform: scale(0.98) translateY(6px); transition: transform 420ms ease, opacity 360ms ease; margin: 0; }
+.cidades-section.fade-up .svg-map { opacity: 1; transform: scale(1) translateY(0); }
+
+/* When active, slide map left and bring lists into view */
+.cidades-section.active .cidades-map { transform: none; }
+.cidades-section.active .cidades-lists { transform: translateX(0); opacity: 1; pointer-events: auto; }
+
+/* Remove disappearing animation when the lists become active: show immediately */
+.cidades-section.active .cidades-lists {
+  transition: none !important;
+}
+
+/* Make sure the lists header/back button looks good */
+.lists-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; }
+.lists-back-btn { background: transparent; border: none; color: var(--cor-primaria); font-weight:600; cursor:pointer; padding:6px 8px; border-radius:6px; }
+.lists-back-btn:hover { background: rgba(5,43,85,0.06); }
+.lists-title { margin:0; font-size:1rem; color:#233142; }
+
+/* Hide the legend area (we removed the DOM node but keep rule to be safe) */
+.map-legend { display: none !important; }
+
+/* ensure map is visually centered when no list is open */
+.cidades-section:not(.active) .cidades-map { transform: translateX(0) !important; }
+
+/* Mobile: listas viram painel sobreposto e mapa fica levemente deslocado */
+@media (max-width: 900px) {
+  :root { --lists-width: 100%; }
+  .cidades-content { justify-content: center; }
+  .cidades-lists {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    background: #fff;
+    box-shadow: -6px 0 20px rgba(0,0,0,0.08);
+    transform: translateX(100%);
+    z-index: 60;
+    padding: 1rem;
+    overflow: auto;
+  }
+  .cidades-section.active .cidades-lists { transform: translateX(0); opacity: 1; pointer-events: auto; }
+  .cidades-section.active .cidades-map { transform: translateX(-20%); }
+}
+
+/* when switching between states, apply a subtle fade/translate on the list block */
+.city-block.switching { transform: translateX(4px); transition: transform 200ms ease; }
+
+/* accessibility: ensure lists are focusable when visible */
+.cidades-lists[aria-hidden="false"] { outline: none; }
 
 .svg-map svg {
   width: 100%;
@@ -712,7 +816,9 @@ section h1, section h2, section h3,
 .section-subtitle {
   font-size: 1.1rem;
   color: #6c757d;
-  margin-bottom: 2.5rem;
+  text-align: center; /* centraliza subtítulos em todas as páginas */
+  margin-top: 0.25rem;
+  margin-bottom: 1rem; /* aproxima do título */
 }
 
 .services .cards {
@@ -806,6 +912,20 @@ section h1, section h2, section h3,
   text-align: center;
   /* Gradiente estático, usando o mesmo gradiente da seção Início mas com uma posição fixa */
   background: linear-gradient(125deg, var(--cor-primaria), var(--cor-secundaria), var(--cor-destaque));
+
+/* DEBUG: Disable all CSS animations/transitions temporarily to help diagnose layout/paint issues.
+   Remove this block after debugging. */
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Disable smooth scrolling while debugging to avoid scroll-related paint issues */
+html, body {
+  scroll-behavior: auto !important;
+}
   background-size: 200% 200%; /* Tamanho ajustado para o gradiente estático */
   background-position: 75% 50%; /* Posição que destaca a transição de cores */
 }

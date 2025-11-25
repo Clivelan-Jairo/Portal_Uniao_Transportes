@@ -120,6 +120,41 @@
   border-bottom: none;
 }
 
+/* Novo layout para resultados de rastreio */
+.rastreio-result-box {
+  width: 100%;
+  max-height: 60vh; /* limita a altura para manter rolagem interna */
+  overflow: auto;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.rastreio-result-inner { font-family: Arial, Helvetica, sans-serif; color: #111; }
+.rastreio-result-header { margin-bottom: 12px; }
+.rastreio-result-title { margin: 0 0 8px 0; font-size: 1.1rem; font-weight: 700; color: #0b4ea2; }
+.rastreio-result-meta { margin: 0 0 12px 0; color: #333; }
+
+.rastreio-items { display: flex; flex-direction: column; gap: 10px; }
+.rastreio-item { display:flex; gap:12px; padding: 10px; border: 1px solid #f0f2f5; border-radius: 6px; background: #fbfcfd; align-items:flex-start; }
+.rastreio-item-icon { width:48px; height:48px; flex:0 0 48px; display:flex; align-items:center; justify-content:center; }
+.rastreio-icon-svg { width:36px; height:36px; display:block; }
+.rastreio-item-body { flex:1; }
+.rastreio-item-head { font-weight:700; margin-bottom:6px; color:#0b3f6a; font-size:0.95rem; }
+.rastreio-item-desc { color:#333; margin-bottom:8px; line-height:1.35; }
+.rastreio-item-meta { font-size:12px; color:#6b7280; }
+
+.rastreio-route-line { height:6px; margin:8px 0 0 60px; border-radius:4px; background: linear-gradient(90deg, rgba(11,78,162,0.15) 0%, rgba(11,78,162,0.06) 50%, rgba(11,78,162,0.12) 100%); }
+
+/* Centraliza o bloco de resultado principal (opcional) */
+.rastreio-result-center { display:flex; flex-direction:column; align-items:center; }
+
+/* Centraliza o botão de nova consulta */
+.rastreio-new-btn-wrap { display:flex; justify-content:center; margin-top:12px; }
+.rastreio-new-btn { min-width:160px; padding:0.6rem 1.2rem; }
+
 /* Mobile adjustments for Rastreio page */
 @media (max-width: 767px) {
   .rastreio-page-container {
@@ -141,4 +176,65 @@
   .btn-primary, .btn-secondary {
     width: 100%;
   }
+}
+
+/* Animação de checkmark para resultado localizado */
+.found-animation {
+  width: 48px;
+  height: 48px;
+}
+.checkmark {
+  width: 48px;
+  height: 48px;
+  display: block;
+}
+.checkmark__circle {
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+  animation: circle-draw 0.6s ease forwards;
+}
+.checkmark__check {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: check-draw 0.45s 0.5s ease forwards;
+}
+
+@keyframes circle-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes check-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Pequena pulse para destacar */
+.found-animation .checkmark {
+  transform-origin: center;
+  animation: pop 0.65s ease 0.6s both;
+}
+@keyframes pop {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* --- Bloco 'não encontrado' centralizado --- */
+.rastreio-notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 18px 14px;
+  margin: 12px auto;
+}
+.rastreio-notfound-icon svg {
+  width: 64px;
+  height: 64px;
+  display: block;
+  margin-bottom: 10px;
+}
+.rastreio-notfound-text {
+  color: #c0392b; /* vermelho de aviso */
+  font-weight: 700;
+  font-size: 1rem;
 }
