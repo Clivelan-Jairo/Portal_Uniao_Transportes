@@ -60,8 +60,23 @@ function RastreioPage() {
         let endpoint = '/api/trackingdest';
         if (API_BASE) {
           const base = String(API_BASE).replace(/\/$/, '');
-          // Se API_BASE for um caminho relativo ou absoluto, montamos o endpoint com ele.
-          endpoint = `${base}/api/trackingdest`;
+          // Segurança: evita usar um API_BASE que aponte para outro host no cliente,
+          // pois isso causaria requisição cross-origin e possivelmente bloqueio CORS.
+          // Se o `base` referencia o mesmo origin da página atual (por exemplo um caminho
+          // absoluto no mesmo domínio), aceitamos; caso contrário, preferimos o endpoint
+          // relativo para que o proxy/rewrite do host (ex.: Vercel) seja usado.
+          try {
+            const maybeUrl = new URL(base, window.location.href);
+            if (maybeUrl.origin === window.location.origin) {
+              endpoint = `${base}/api/trackingdest`;
+            } else {
+              console.warn('VITE_API_BASE aponta para outro origin; usando /api/trackingdest para evitar CORS. Valor:', base);
+              endpoint = '/api/trackingdest';
+            }
+          } catch (e) {
+            // Se `base` for um caminho relativo (ex: '/backend'), construímos com ele.
+            endpoint = `${base}/api/trackingdest`;
+          }
         }
         const body = new URLSearchParams();
         body.append('cnpjdest', cnpjClean);
