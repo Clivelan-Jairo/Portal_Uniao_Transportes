@@ -233,9 +233,6 @@ function RastreioPage() {
       } finally {
         setLoading(false);
       }
-      } finally {
-        setLoading(false);
-      }
     })();
   };
 
