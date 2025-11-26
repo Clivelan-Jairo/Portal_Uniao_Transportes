@@ -161,7 +161,7 @@ header {
 }
 
 .logo img {
-  height: 55px; /* Você pode ajustar este valor como desejar */
+  height: 48px; /* mobile-first default */
 }
 
 nav ul {
@@ -1531,6 +1531,11 @@ nav ul li a {
 /* General container padding adjustment on small devices */
 .container { padding: 0 1rem; }
 
+/* Tablet logo size */
+@media (min-width: 420px) and (max-width: 767px) {
+  .logo img { height: 64px; }
+}
+
 /* Larger screens (tablet/desktop) */
 @media (min-width: 768px) {
   .menu-toggle { display: none; }
@@ -1548,7 +1553,8 @@ nav ul li a {
 
   .header-top-bar { padding: 0.9rem 2rem; }
   .header-main { padding: 0.8rem 0; }
-  .logo img { height: 55px; }
+  /* Desktop */
+  .logo img { height: 80px; }
 
   /* Restore hero larger sizes */
   .hero { padding: 8rem 2rem; }

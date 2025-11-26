@@ -1,10 +1,32 @@
+import { useEffect, useRef } from 'react';
 import './Services.css';
 
 function Services() {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const root = containerRef.current;
+    if (!root || typeof IntersectionObserver === 'undefined') return;
+
+    const cards = Array.from(root.querySelectorAll('.service-card'));
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      },
+      { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
+    );
+
+    cards.forEach((c) => obs.observe(c));
+    return () => obs.disconnect();
+  }, []);
   return (
     <section id="servicos" className="services fade-up">
       <h2>Nossos Serviços</h2>
-      <div className="cards">
+      <div className="cards" ref={containerRef}>
         <article className="service-card">
           <div className="service-media">
             <img src="/img/transporte_rodoviario.png" alt="Transporte Rodoviário" />
