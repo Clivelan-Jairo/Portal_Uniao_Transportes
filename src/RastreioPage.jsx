@@ -52,10 +52,17 @@ function RastreioPage() {
         setLoading(true);
         setResultHtml(null);
 
-        // Use VITE_API_BASE em produção para apontar para o backend real.
-        // Em desenvolvimento mantemos o caminho relativo (o Vite proxy cuida do redirecionamento).
+        // Constrói o endpoint de forma segura:
+        // - Se `VITE_API_BASE` estiver definido explicitamente, usa-o (útil para testar apontando diretamente a outro host).
+        // - Caso contrário, usa caminho relativo `/api/trackingdest` para que plataformas como Vercel apliquem a rewrite/proxy
+        //   definida em `vercel.json` e assim evitar bloqueio CORS ao chamar o backend remoto.
         const API_BASE = import.meta.env.VITE_API_BASE || '';
-        const endpoint = `${API_BASE}/api/trackingdest`;
+        let endpoint = '/api/trackingdest';
+        if (API_BASE) {
+          const base = String(API_BASE).replace(/\/$/, '');
+          // Se API_BASE for um caminho relativo ou absoluto, montamos o endpoint com ele.
+          endpoint = `${base}/api/trackingdest`;
+        }
         const body = new URLSearchParams();
         body.append('cnpjdest', cnpjClean);
         // Alguns endpoints aceitam o nome 'cnpj' em vez de 'cnpjdest'.
@@ -216,7 +223,16 @@ function RastreioPage() {
         setTimeout(() => { if (iframeRef.current) iframeRef.current.scrollIntoView({ behavior: 'smooth' }); }, 50);
       } catch (err) {
         console.error(err);
-        alert('Erro ao consultar API: ' + (err.message || err));
+        const msg = (err && err.message) ? String(err.message) : String(err);
+        // Detecta falhas típicas de CORS / network e provê instruções úteis ao usuário/admin
+        if (/failed to fetch|networkerror|cors/i.test(msg)) {
+          alert('Erro de rede/CORS ao consultar API. Verifique se o site aplica uma reescrita/proxy para `/api/*` apontando para o backend (ex.: `https://ssw.inf.br`) ou se o backend permite a origem desta página. Detalhe: ' + msg);
+        } else {
+          alert('Erro ao consultar API: ' + msg);
+        }
+      } finally {
+        setLoading(false);
+      }
       } finally {
         setLoading(false);
       }
