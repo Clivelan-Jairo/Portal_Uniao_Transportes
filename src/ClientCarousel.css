@@ -81,11 +81,8 @@
   .carousel-item img { height: 56px; }
 }
 
-/* Pausa a animação quando o usuário interage (hover/focus) para facilitar leitura */
-.clients-carousel:hover .carousel-track,
-.clients-carousel:focus-within .carousel-track {
-  animation-play-state: paused;
-}
+/* Mantemos a animação contínua mesmo quando o usuário passa o mouse por cima.
+   A escala no hover da imagem continua ativa, mas não pausa a animação. */
 
 /* Sombra extra sob a pista do carrossel */
 .carousel-track { position: relative; z-index: 2; }
