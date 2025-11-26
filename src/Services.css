@@ -1,0 +1,135 @@
+.services {
+  --max-width: 1200px;
+  --card-gap: 2rem;
+  --card-padding: 1.2rem;
+  --media-width: 320px;
+
+  padding: 3rem 1rem;
+}
+.services h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+}
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.service-card {
+  display: flex;
+  align-items: flex-start; /* align image and body to top */
+  gap: var(--card-gap);
+  background: linear-gradient(90deg, #ffffff 0%, #fbfdff 100%);
+  padding: var(--card-padding);
+  border-radius: 28px;
+  box-shadow: 0 8px 26px rgba(2,18,44,0.06);
+  overflow: hidden;
+  width: 100%;
+}
+.service-media {
+  flex: 0 0 var(--media-width);
+  max-width: var(--media-width);
+  width: 100%;
+}
+.service-media img {
+  width: 100%;
+  height: auto; /* allow proportional scaling */
+  display: block;
+  object-fit: cover;
+  border-radius: 0; /* radius handled per-side to create curved start/end */
+  max-height: 360px;
+}
+
+/* Curvas nos cantos da imagem conforme posição */
+.service-card .service-media img {
+  border-top-left-radius: 28px;
+  border-bottom-left-radius: 28px;
+}
+.service-card.reverse .service-media img {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 28px;
+  border-bottom-right-radius: 28px;
+}
+.service-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* align text to top of the image */
+  align-items: flex-start; /* left by default */
+  text-align: left; /* default text alignment */
+}
+.service-body h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #0b4ea2;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+}
+.service-body p {
+  margin: 0 0 1rem 0;
+  color: #333;
+  line-height: 1.6;
+  max-width: 70ch;
+}
+.service-body .card-link {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  background: #0b4ea2;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+/* Quando a imagem estiver à direita, alinha o conteúdo à direita */
+.service-card.reverse .service-body {
+  align-items: flex-end;
+  text-align: right;
+}
+
+@media (max-width: 1024px) {
+  .services { padding: 2.25rem 0.75rem; }
+  .cards { gap: 1.25rem; }
+  :root { --media-width: 260px; }
+}
+
+@media (max-width: 768px) {
+  .service-card {
+    flex-direction: column;
+    text-align: left;
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  .service-media { flex: 0 0 auto; width: 100%; }
+  /* On mobile show the whole image filling the available width
+     and avoid artificial max-height so it scales naturally */
+  .service-media img { border-radius: 8px; max-height: none; height: auto; width: 100%; object-fit: contain; }
+  .service-body p { max-width: 100%; }
+}
+
+@media (max-width: 768px) {
+  /* no mobile, ensure reversed cards also align text to left/top */
+  .service-card.reverse .service-body {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* Inverte a ordem da imagem/texto para cards marcados com .reverse em telas maiores */
+.service-card.reverse {
+  flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+  /* Garante que no mobile o card invertido também fique empilhado de forma natural */
+  .service-card.reverse { flex-direction: column; }
+}
+
+/* Large screens: increase media width and spacing */
+@media (min-width: 1400px) {
+  :root { --media-width: 380px; --card-gap: 3rem; --card-padding: 1.6rem; }
+  .service-media img { max-height: 420px; }
+}
