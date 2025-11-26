@@ -21,7 +21,7 @@
 }
 .service-card {
   display: flex;
-  align-items: flex-start; /* align image and body to top */
+  align-items: center; /* center image and body vertically on larger screens */
   gap: var(--card-gap);
   background: linear-gradient(90deg, #ffffff 0%, #fbfdff 100%);
   padding: var(--card-padding);
@@ -59,7 +59,7 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* align text to top of the image */
+  justify-content: center; /* vertically center text inside the body on large screens */
   align-items: flex-start; /* left by default */
   text-align: left; /* default text alignment */
 }
