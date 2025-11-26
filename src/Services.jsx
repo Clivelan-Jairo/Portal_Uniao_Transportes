@@ -40,7 +40,6 @@ function Services() {
 
               A União Transportes é a parceira ideal para quem busca um transporte rodoviário eficiente, com cobertura sólida na Amazônia e no Centro-Oeste, unindo qualidade operacional e compromisso com cada entrega.
             </p>
-            <a href="/contato" className="card-link">Saiba Mais</a>
           </div>
         </article>
 
@@ -57,7 +56,6 @@ function Services() {
 
               A União Transportes trabalha para que cada carga seja tratada com máxima responsabilidade, eficiência operacional e compromisso com prazos, fortalecendo a relação com nossos clientes e garantindo resultados consistentes.
             </p>
-            <a href="/contato" className="card-link">Saiba Mais</a>
           </div>
         </article>
 
@@ -74,7 +72,6 @@ function Services() {
 
               Com atuação estratégica no Pará e no Mato Grosso, a União Transportes integra armazenagem e transporte de forma inteligente, reduzindo prazos, diminuindo custos e garantindo que cada carga siga seu destino da maneira mais eficiente possível.
             </p>
-            <a href="/contato" className="card-link">Saiba Mais</a>
           </div>
         </article>
       </div>
