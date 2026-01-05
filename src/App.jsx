@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { useLocation, Outlet } from 'react-router-dom';
 import "./styles.css";
 
 import Header from "./Header";
@@ -37,12 +37,7 @@ function App() {
       <ScrollToTop />
       <Header />
       <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/sobre" element={<SobrePage />} />
-          <Route path="/contato" element={<ContatoPage />} />
-          <Route path="/rastreio" element={<RastreioPage />} />
-        </Routes>
+        <Outlet />
       </main>
       <Footer />
     </>

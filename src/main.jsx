@@ -2,6 +2,10 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
+import HomePage from './HomePage'
+import ContatoPage from './ContatoPage'
+import SobrePage from './SobrePage'
+import RastreioPage from './RastreioPage'
 import './styles.css'
 
 // Logger cliente para debug: salva erros e rejections em localStorage (apenas em desenvolvimento)
@@ -145,7 +149,17 @@ function RootError() {
 
 const router = createBrowserRouter(
   [
-    { path: '/*', element: <App />, errorElement: <RootError /> },
+    {
+      path: '/',
+      element: <App />, 
+      errorElement: <RootError />,
+      children: [
+        { index: true, element: <HomePage /> },
+        { path: 'sobre', element: <SobrePage /> },
+        { path: 'contato', element: <ContatoPage /> },
+        { path: 'rastreio', element: <RastreioPage /> },
+      ]
+    }
   ],
   {
     future: {

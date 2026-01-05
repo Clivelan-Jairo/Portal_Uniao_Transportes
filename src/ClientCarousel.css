@@ -14,9 +14,10 @@
   display: flex;
   gap: 2rem;
   align-items: center;
-  animation: scrollLeft 24s linear infinite;
-  padding-left: 2rem;
+  padding-left: 0; /* remove offset to keep duplicated track seamless */
 }
+
+.carousel-track { will-change: transform; }
 
 /* Caixa fixa para cada logo - todas terão o mesmo tamanho
    Ajuste as variáveis abaixo conforme preferência */
@@ -46,12 +47,15 @@
   transition: transform .18s ease, opacity .18s ease;
 }
 
-.carousel-item img:hover { transform: scale(1.06); opacity: 1; }
-
-@keyframes scrollLeft {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+.carousel-item img:hover {
+  transform: scale(1.08);
+  opacity: 1;
+  /* slight elevation so the zoom feels natural without interrupting flow */
+  box-shadow: 0 6px 18px rgba(2,18,44,0.08);
+  z-index: 3;
 }
+
+/* animation is handled by JS (requestAnimationFrame) for a seamless loop */
 
 @media (max-width: 768px) {
   .carousel-item img { height: 52px; }
@@ -66,18 +70,18 @@
 @media (max-width: 1024px) {
   :root { --client-box-w: 120px; --client-box-h: 64px; }
   .clients-carousel { padding: 1rem 0; }
-  .carousel-track { padding-left: 1rem; gap: 1.6rem; }
+  .carousel-track { gap: 1.6rem; }
 }
 
 @media (max-width: 768px) {
   :root { --client-box-w: 100px; --client-box-h: 52px; }
   .clients-carousel { padding: 0.8rem 0; }
-  .carousel-track { animation-duration: 16s; padding-left: 0.8rem; gap: 1.2rem; }
+  .carousel-track { animation-duration: 16s; gap: 1.2rem; }
 }
 
 @media (max-width: 420px) {
   :root { --client-box-w: 84px; --client-box-h: 56px; }
-  .carousel-track { animation-duration: 12s; gap: 0.9rem; padding-left: 0.6rem; }
+  .carousel-track { animation-duration: 12s; gap: 0.9rem; }
   .carousel-item img { height: 56px; }
 }
 
