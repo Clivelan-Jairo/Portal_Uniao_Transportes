@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function HeroSection() {
   return (
     <section id="inicio" className="hero" aria-label="Seção inicial">
@@ -7,8 +9,8 @@ function HeroSection() {
           <h1>Transporte Rodoviário com<br/><strong>Segurança e Confiabilidade</strong></h1>
           <p className="hero-sub">Logística eficiente ligando o Norte ao Brasil</p>
           <div className="hero-actions">
-            <a className="btn btn-primary" href="/rastreio" aria-label="Ir para rastreamento">Rastreamento</a>
-            <a className="btn btn-ghost" href="/contato" aria-label="Entrar em contato">Contato</a>
+            <Link className="btn btn-primary" to="/rastreio" aria-label="Ir para rastreamento">Rastreamento</Link>
+            <Link className="btn btn-ghost" to="/contato" aria-label="Entrar em contato">Contato</Link>
           </div>
         </div>
       </div>
