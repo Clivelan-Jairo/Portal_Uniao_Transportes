@@ -29,10 +29,10 @@ function RastreioPage() {
       return;
     }
 
-    // Sanitiza CNPJ (somente dígitos) e valida comprimento
-    const cnpjClean = cnpjdest.replace(/\D/g, '');
-    if (cnpjClean.length !== 14) {
-      alert('Informe um CNPJ válido com 14 dígitos (somente números).');
+    // Sanitiza documento (CPF/CNPJ) e valida comprimento permitido
+    const docClean = cnpjdest.replace(/\D/g, '');
+    if (docClean.length !== 11 && docClean.length !== 14) {
+      alert('Informe um CPF (11 dígitos) ou CNPJ (14 dígitos), somente números.');
       return;
     }
 
@@ -79,10 +79,10 @@ function RastreioPage() {
           }
         }
         const body = new URLSearchParams();
-        body.append('cnpjdest', cnpjClean);
+        body.append('cnpjdest', docClean);
         // Alguns endpoints aceitam o nome 'cnpj' em vez de 'cnpjdest'.
         // Enviamos também para compatibilidade com variações do backend.
-        body.append('cnpj', cnpjClean);
+        body.append('cnpj', docClean);
         // Enviar cada nota como parâmetro 'nro_nf' (muitos backends esperam esse nome)
         const nrLines = nrClean.split('\n').filter(Boolean);
         // mantém compatibilidade com o campo antigo
@@ -262,7 +262,7 @@ function RastreioPage() {
             <div className="page-title-container">
               <h2>Rastreio de Encomendas</h2>
             </div>
-            <p>Digite o CNPJ do destinatário e o número da nota fiscal para acompanhar sua entrega.</p>
+            <p>Digite o CPF ou CNPJ do destinatário e o número da nota fiscal para acompanhar sua entrega.</p>
           </>
         )}
         
@@ -273,8 +273,17 @@ function RastreioPage() {
           onSubmit={handleSubmit}
         >
           <div className="form-group">
-            <label htmlFor="cnpjdest">CNPJ do destinatário:</label>
-            <input type="text" id="cnpjdest" name="cnpjdest" maxLength="14" value={cnpjdest} onChange={(e) => setCnpjdest(e.target.value)} required />
+            <label htmlFor="cnpjdest">CPF ou CNPJ do destinatário:</label>
+            <input
+              type="text"
+              id="cnpjdest"
+              name="cnpjdest"
+              maxLength="14"
+              placeholder="Digite apenas números"
+              value={cnpjdest}
+              onChange={(e) => setCnpjdest(e.target.value)}
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="numeroNota">Notas Fiscais (uma por linha)</label>
