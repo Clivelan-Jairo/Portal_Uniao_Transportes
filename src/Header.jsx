@@ -1,83 +1,81 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
-import { FaEnvelope, FaPhoneAlt, FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser } from 'react-icons/fa';
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const headerRef = useRef(null);
 
   const closeMenu = () => setMenuOpen(false);
 
-  // Define uma variável CSS com a altura do header para ajustar o offset de scroll
+  // Atualiza a variável CSS --header-height com base na altura real da pill
   useEffect(() => {
-    function setHeaderHeight() {
-      const el = headerRef.current;
-      if (!el) return;
-      const h = el.offsetHeight;
-      document.documentElement.style.setProperty('--header-height', `${h}px`);
-      // também definir scroll-padding-top diretamente para compatibilidade
-      document.documentElement.style.scrollPaddingTop = `${h}px`;
-    }
-
-    setHeaderHeight();
-    window.addEventListener('resize', setHeaderHeight);
-    // caso o header mude após imagens carregarem
-    window.addEventListener('load', setHeaderHeight);
-
-    return () => {
-      window.removeEventListener('resize', setHeaderHeight);
-      window.removeEventListener('load', setHeaderHeight);
+    const updateHeaderHeight = () => {
+      const pill = document.querySelector('.header-pill');
+      if (!pill) return;
+      const rect = pill.getBoundingClientRect();
+      const headerHeight = Math.ceil(rect.top + rect.height);
+      document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
     };
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+    return () => window.removeEventListener('resize', updateHeaderHeight);
   }, []);
 
   return (
-    <header id="header" ref={headerRef}>
-      {/* Linha superior com contatos e rastreio */}
-      <div className="header-top-bar">
-        <div className="contact-info">
-          <span>
-            <FaEnvelope /> santarem@uniaotransportesstm.com.br
-          </span>
-          <span>
-            <FaPhoneAlt /> (93) 99204-7404
-          </span>
+    <div id="header" className="header-wrapper">
+      {/* Cabeçalho flutuante estilo 'pill' */}
+      <div className="header-pill">
+        <div className="pill-left logo">
+          <img src="/img/logo.png" alt="União Transportes" />
         </div>
-        <div className="header-top-links">
-          <Link to="/rastreio">Rastreamento</Link>
-        </div>
-      </div>
 
-      {/* Linha principal com logo e navegação */}
-      <div className="header-main">
-        <div className="container header-main-container">
-          <div className="logo">
-            <img src="/img/logo.png" alt="União Transportes" />
+        <nav className="pill-nav">
+          <ul>
+            <li><HashLink to="/#inicio" onClick={closeMenu}>Início</HashLink></li>
+            <li><HashLink to="/#servicos" onClick={closeMenu}>Serviços</HashLink></li>
+            <li><HashLink to="/#unidades" onClick={closeMenu}>Unidades</HashLink></li>
+            <li><HashLink to="/#cidades" onClick={closeMenu}>Cidades atendidas</HashLink></li>
+            <li><Link to="/sobre" onClick={closeMenu}>Sobre</Link></li>
+            <li><Link to="/contato" onClick={closeMenu}>Contato</Link></li>
+          </ul>
+        </nav>
+
+        <div className="pill-right">
+          <Link to="/perfil" className="pill-profile" onClick={closeMenu} aria-label="Perfil">
+            <FaUser />
+          </Link>
+        </div>
+
+        {/* Mobile menu toggle */}
+        <button
+          className="menu-toggle"
+          aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+
+        {/* Mobile menu dropdown */}
+        <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+          <div className="mobile-menu-profile">
+            <Link to="/perfil" onClick={closeMenu} aria-label="Ir para perfil">
+              <FaUser />
+              <span>Perfil</span>
+            </Link>
           </div>
-
-          {/* Botão de menu (visível em telas pequenas) */}
-          <button
-            className="menu-toggle"
-            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <FaTimes /> : <FaBars />}
-          </button>
-
-          <nav className={menuOpen ? 'open' : ''}>
-            <ul className={menuOpen ? 'open' : ''}>
-              <li><HashLink to="/#inicio" onClick={closeMenu}>Início</HashLink></li>
-              <li><HashLink to="/#servicos" onClick={closeMenu}>Serviços</HashLink></li>
-              <li><HashLink to="/#unidades" onClick={closeMenu}>Unidades</HashLink></li>
-              <li><HashLink to="/#cidades" onClick={closeMenu}>Cidades atendidas</HashLink></li>
-              <li><Link to="/sobre" onClick={closeMenu}>Sobre</Link></li>
-              <li><Link to="/contato" onClick={closeMenu}>Contato</Link></li>
-            </ul>
-          </nav>
+          <ul className="mobile-menu-links">
+            <li><HashLink to="/#inicio" onClick={closeMenu}>Início</HashLink></li>
+            <li><HashLink to="/#servicos" onClick={closeMenu}>Serviços</HashLink></li>
+            <li><HashLink to="/#unidades" onClick={closeMenu}>Unidades</HashLink></li>
+            <li><HashLink to="/#cidades" onClick={closeMenu}>Cidades atendidas</HashLink></li>
+            <li><Link to="/sobre" onClick={closeMenu}>Sobre</Link></li>
+            <li><Link to="/contato" onClick={closeMenu}>Contato</Link></li>
+          </ul>
         </div>
       </div>
-    </header>
+    </div>
   );
 }
 

@@ -1,47 +1,81 @@
-/* Estilos para a página Sobre */
-.sobre-container {
-  /* A classe .container já controla o max-width e o margin. */
-  margin-top: 1rem;
-  padding: 2rem;
-  background-color: var(--cor-branca);
-  border-radius: 16px;
-  box-shadow: var(--sombra-suave);
-  text-align: left;
+/* Página Sobre - storytelling com fundo moderno e timeline */
+.about-page {
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--header-height, 90px) + var(--anchor-gap, 28px) + 32px) 0 72px;
+  background: radial-gradient(circle at 15% 25%, rgba(0,74,173,0.12), transparent 32%),
+              radial-gradient(circle at 85% 12%, rgba(93,224,230,0.12), transparent 30%),
+              #f7faff;
 }
 
-.page-title-container {
-  text-align: center;
-  margin-bottom: 2rem;
+.about-bg {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 420px;
+  background: linear-gradient(135deg, rgba(0,74,173,0.12), rgba(93,224,230,0.10));
+  filter: blur(60px);
+  z-index: 0;
+  animation: floaty 16s ease-in-out infinite alternate;
 }
 
-.sobre-container h2 {
-  font-size: 2.2rem;
-  color: var(--cor-primaria);
-  border-bottom: 2px solid var(--cor-destaque);
-  padding-bottom: 0.5rem;
-  display: inline-block;
+.about-noise {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0,0,0,0.045) 1px, transparent 0);
+  background-size: 18px 18px;
+  opacity: 0.12;
+  z-index: 0;
+  pointer-events: none;
 }
 
-.sobre-content {
-  line-height: 1.8;
-  font-size: 1.1rem;
+.about-shell { position: relative; z-index: 1; }
+
+.about-header { max-width: 880px; margin: 0 auto 2rem; text-align: center; }
+.about-eyebrow { display: inline-block; padding: 0.4rem 0.9rem; background: rgba(0,74,173,0.08); color: #0a3a74; border-radius: 999px; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.75rem; }
+.about-header h2 { font-size: clamp(2rem, 3vw, 2.6rem); color: #0b2a4d; margin-bottom: 0.6rem; }
+.about-header p { color: #334155; margin: 0 auto 1rem; max-width: 720px; line-height: 1.6; }
+
+.about-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 1.5rem; align-items: stretch; }
+.about-panel { background: #fff; border-radius: 18px; box-shadow: 0 18px 40px rgba(2,18,44,0.12); border: 1px solid rgba(0,0,0,0.03); position: relative; overflow: hidden; }
+
+.about-story { padding: 1.35rem; display: flex; flex-direction: column; gap: 1rem; }
+.story-hero { display: grid; grid-template-columns: 1.2fr auto; gap: 0.8rem; align-items: center; background: linear-gradient(135deg, #0b4ea2, #5de0e6); color: #fff; border-radius: 16px; padding: 1rem 1.2rem; box-shadow: 0 16px 36px rgba(11,78,162,0.35); }
+.story-hero-badge { display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 0.8rem; border-radius: 12px; background: rgba(255,255,255,0.18); font-weight: 800; }
+.story-hero-text h3 { margin: 0 0 0.25rem 0; }
+.story-hero-text p { margin: 0; opacity: 0.95; }
+
+/* Garantir contraste forte no título e texto dentro do bloco hero da história */
+.about-page .story-hero-text h3,
+.about-page .story-hero-text p {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.25);
 }
 
-.sobre-content p {
-  margin-bottom: 1.5rem;
-}
+.story-timeline { display: none; }
 
-.sobre-content p:last-child {
-  margin-bottom: 0;
-}
+.about-values { padding: 1.35rem; display: flex; flex-direction: column; gap: 1rem; }
+.values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; }
+.value-card { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem; align-items: center; padding: 0.85rem 1rem; border-radius: 14px; background: #f3f7ff; border: 1px solid rgba(0,74,173,0.08); }
+.value-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(0,74,173,0.12); color: #0b2a4d; display: grid; place-items: center; font-size: 1.1rem; }
+.value-card h4 { margin: 0; color: #0b2a4d; }
+.value-card p { margin: 0.15rem 0 0 0; color: #475569; }
 
-/* Mobile adjustments */
+/* Capítulos de história (missão, visão, compromisso, hoje) */
+.story-chapters { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+.chapter { padding: 0.9rem 1rem; border-radius: 14px; background: #fff; border: 1px solid rgba(0,74,173,0.08); box-shadow: 0 10px 24px rgba(2,18,44,0.08); }
+.chapter h4 { margin: 0 0 0.25rem 0; color: #0b2a4d; }
+.chapter p { margin: 0; color: #475569; }
+
+.about-cta { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.8rem; padding: 1rem 1.1rem; border-radius: 14px; background: #fff; border: 1px solid rgba(0,74,173,0.08); box-shadow: 0 10px 24px rgba(2,18,44,0.08); }
+.about-cta .cta-text h3 { margin: 0; color: #0b2a4d; }
+.about-cta .cta-text p { margin: 0.2rem 0 0 0; color: #475569; }
+.about-cta .cta-link { display: inline-flex; align-items: center; gap: 0.4rem; color: #0b4ea2; font-weight: 800; text-decoration: none; }
+
+@keyframes floaty { from { transform: translateY(0px) scale(1); } to { transform: translateY(18px) scale(1.02); } }
+
+@media (max-width: 1024px) { .about-grid { grid-template-columns: 1fr; } .story-hero { grid-template-columns: 1fr auto; } }
 @media (max-width: 767px) {
-  .sobre-container {
-    padding: 1.2rem;
-  }
-
-  .sobre-container h2 {
-    font-size: 1.6rem;
-  }
+  .about-page { padding: calc(var(--header-height, 76px) + var(--anchor-gap, 24px) + 20px) 0 56px; }
+  .about-header { text-align: left; }
+  .values-grid { grid-template-columns: 1fr; }
 }

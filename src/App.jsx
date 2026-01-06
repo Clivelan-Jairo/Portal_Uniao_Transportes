@@ -36,7 +36,7 @@ function App() {
     <>
       <ScrollToTop />
       <Header />
-      <main>
+      <main className={location.pathname === '/' ? 'main main-home' : 'main main-default'}>
         <Outlet />
       </main>
       <Footer />
