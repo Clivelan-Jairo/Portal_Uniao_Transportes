@@ -1,5 +1,16 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://ssw.inf.br/api/:path*" }
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://ssw.inf.br/api/:path*"
+    }
   ]
-}
+} 
