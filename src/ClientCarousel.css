@@ -59,11 +59,11 @@
 
 @media (max-width: 768px) {
   .carousel-item img { height: 52px; }
-  .carousel-track { gap: 1.2rem; animation-duration: 18s; }
+  .carousel-track { gap: 1.2rem; animation-duration: 12s; }
 }
 @media (min-width: 1200px) {
   .carousel-item img { height: 72px; }
-  .carousel-track { gap: 2.5rem; animation-duration: 28s; }
+  .carousel-track { gap: 2.5rem; animation-duration: 20s; }
 }
 
 /* Responsividade: ajustar tamanho das caixas e gaps em breakpoints */
