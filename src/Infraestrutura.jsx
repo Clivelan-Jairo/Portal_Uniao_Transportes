@@ -10,7 +10,7 @@ function Infraestrutura() {
     },
     {
       id: 2,
-      title: 'Unidade 3C',
+      title: 'Unidade 3❤️',
       src: '/img/infraestrutura/filial-3c.jpg'
     },
     {
@@ -32,6 +32,7 @@ function Infraestrutura() {
 
   // URL do vídeo YouTube (substitua pelo seu)
   const videoId = 'dQw4w9WgXcQ';
+  const videoThumb = '/img/imagem-video.png';
 
   return (
     <section className="infraestrutura">
@@ -51,17 +52,25 @@ function Infraestrutura() {
         {/* Vídeo YouTube */}
         <div className="video-section">
           <h2>Vídeo Institucional</h2>
-          <div className="video-wrapper">
-            <iframe
-              width="100%"
-              height="500"
-              src={`https://www.youtube.com/`}
-              title="Vídeo Institucional - União Transportes"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
+            <div className="video-card">
+              <div className="video-thumb-block">
+                <div className="video-thumb">
+                  <img src={videoThumb} alt="Imagem do vídeo institucional" loading="lazy" />
+                </div>
+                <p className="video-lead">Assista ao nosso vídeo institucional e venha fazer sua logística crescer.</p>
+              </div>
+
+              <div className="video-content">
+                <div className="video-wrapper">
+                  <iframe
+                    src="https://www.youtube.com/embed/wYhvOBkS9Ys"
+                    title="Vídeo Institucional - União Transportes"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
         </div>
 
         {/* 5 Imagens lado a lado */}
