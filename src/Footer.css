@@ -13,12 +13,13 @@
 
 .footer-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 3rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto 3rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
 
 .footer-section {
@@ -98,56 +99,21 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* ===================== RESPONSIVE ===================== */
+/* Responsividade desativada: manter layout desktop em todas as larguras */
 
 @media (max-width: 768px) {
   .footer {
     padding: 3rem 1.5rem 1.5rem;
   }
 
-  .footer-content {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-  }
-
-  .footer-section h3 {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .footer-section p {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-
-  .footer-section a {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer {
-    padding: 2rem 1rem 1rem;
-    margin-top: 4rem;
-  }
-
-  .footer-content {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
-
   .footer-section h3 {
     font-size: 0.95rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.1rem;
   }
 
   .footer-section p {
     font-size: 0.85rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
   }
 
   .footer-section a {
@@ -157,15 +123,21 @@
   .footer-bottom p {
     font-size: 0.8rem;
   }
+}
 
-  .social-links {
-    gap: 0.8rem;
+@media (max-width: 480px) {
+  .footer-section h3 {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
   }
 
-  .social-links a {
-    width: 35px;
-    height: 35px;
-    font-size: 0.85rem;
+  .footer-section p,
+  .footer-section a {
+    font-size: 0.8rem;
+  }
+
+  .footer-bottom p {
+    font-size: 0.75rem;
   }
 }
 
