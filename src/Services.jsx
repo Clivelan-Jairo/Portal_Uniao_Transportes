@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { FaTruck, FaBoxes, FaCheckCircle, FaShieldAlt, FaClock, FaArrowRight, FaRoad, FaChartLine } from 'react-icons/fa';
 import './Services.css';
 
 function Services() {
@@ -23,57 +24,175 @@ function Services() {
     cards.forEach((c) => obs.observe(c));
     return () => obs.disconnect();
   }, []);
+  const features = [
+    { icon: FaShieldAlt, label: 'Cargas Seguradas' },
+    { icon: FaClock, label: 'Prazos Cumpridos' },
+    { icon: FaCheckCircle, label: 'Rastreamento 24/7' }
+  ];
+
   return (
-    <section id="servicos" className="services fade-up">
-      <h2>Nossos Serviços</h2>
-      <div className="cards" ref={containerRef}>
-        <article className="service-card">
-          <div className="service-media">
-            <img src="/img/transporte_rodoviario.png" alt="Transporte Rodoviário" />
+    <section id="servicos" className="services">
+      <div className="services-bg" aria-hidden="true" />
+      <div className="services-noise" aria-hidden="true" />
+      
+      <div className="container services-shell">
+        {/* HEADER */}
+        <div className="services-header">
+          <div className="header-top">
+            <span className="services-eyebrow">Soluções Completas</span>
+            <h2>Soluções logísticas integradas</h2>
           </div>
-          <div className="service-body">
-            <h3>Transporte Rodoviário</h3>
-            <p>
-              A União Transportes é especializada em transporte rodoviário de cargas, oferecendo soluções ágeis, seguras e eficientes para empresas que operam nos estados do Pará e Mato Grosso. Atuamos estrategicamente nas principais rotas da região, incluindo corredores logísticos fundamentais como a BR-163, garantindo rapidez no deslocamento entre as cidades atendidas e maior confiabilidade na entrega.
-
-              Nossa operação conta com uma frota moderna, motoristas experientes e acompanhamento completo das cargas, proporcionando ao cliente transparência e tranquilidade durante todo o processo. Priorizamos a integridade da mercadoria, o cumprimento dos prazos e a excelência no atendimento.
-
-              A União Transportes é a parceira ideal para quem busca um transporte rodoviário eficiente, com cobertura sólida na Amazônia e no Centro-Oeste, unindo qualidade operacional e compromisso com cada entrega.
-            </p>
+          <p className="header-desc">Da coleta à entrega, nossa operação garante segurança, eficiência e transparência em cada etapa</p>
+          
+          {/* Features em grid */}
+          <div className="features-grid">
+            {features.map((Feature, idx) => (
+              <div key={idx} className="feature-item">
+                <Feature.icon />
+                <span>{Feature.label}</span>
+              </div>
+            ))}
           </div>
-        </article>
+        </div>
 
-        <article className="service-card reverse">
-          <div className="service-media">
-            <img src="/img/gestao.png" alt="Gestão de Cargas" />
+        {/* SERVICES CARDS */}
+        <div className="cards" ref={containerRef}>
+          {/* CARD 1: Transporte Rodoviário */}
+          <article className="service-card primary">
+            <div className="card-header">
+              <div className="card-icon-circle transport">
+                <FaTruck />
+              </div>
+              <div className="card-title-section">
+                <h3>Transporte Rodoviário</h3>
+                <p className="card-subtitle">Mobilidade eficiente por toda região</p>
+              </div>
+            </div>
+
+            <div className="card-content">
+              <div className="card-description">
+                <p>Operamos uma frota moderna com cobertura estratégica nas principais rotas da Amazônia e Centro-Oeste.</p>
+              </div>
+
+              <div className="card-features">
+                <div className="feature">
+                  <FaRoad className="feature-icon" />
+                  <div>
+                    <h4>Rotas Otimizadas</h4>
+                    <p>BR-163 e corredores logísticos principais</p>
+                  </div>
+                </div>
+                <div className="feature">
+                  <FaCheckCircle className="feature-icon" />
+                  <div>
+                    <h4>Monitoramento Total</h4>
+                    <p>Rastreamento em tempo real de sua carga</p>
+                  </div>
+                </div>
+                <div className="feature">
+                  <FaTruck className="feature-icon" />
+                  <div>
+                    <h4>Frota Moderna</h4>
+                    <p>Veículos bem mantidos e drivers experientes</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          {/* CARD 2: Gestão de Cargas */}
+          <article className="service-card secondary">
+            <div className="card-header">
+              <div className="card-icon-circle control">
+                <FaBoxes />
+              </div>
+              <div className="card-title-section">
+                <h3>Gestão de Cargas</h3>
+                <p className="card-subtitle">Controle total de sua operação</p>
+              </div>
+            </div>
+
+            <div className="card-content">
+              <div className="card-description">
+                <p>Sistema integrado para monitoramento, controle e otimização de todas as suas operações logísticas.</p>
+              </div>
+
+              <div className="card-features">
+                <div className="feature">
+                  <FaChartLine className="feature-icon" />
+                  <div>
+                    <h4>Relatórios Detalhados</h4>
+                    <p>Visibilidade completa de suas operações</p>
+                  </div>
+                </div>
+                <div className="feature">
+                  <FaCheckCircle className="feature-icon" />
+                  <div>
+                    <h4>Controle Preciso</h4>
+                    <p>Registro e acompanhamento de movimentações</p>
+                  </div>
+                </div>
+                <div className="feature">
+                  <FaClock className="feature-icon" />
+                  <div>
+                    <h4>Suporte 24/7</h4>
+                    <p>Equipe disponível quando você precisar</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          {/* CARD 3: Logística */}
+          <article className="service-card tertiary">
+            <div className="card-header">
+              <div className="card-icon-circle storage">
+                <FaChartLine />
+              </div>
+              <div className="card-title-section">
+                <h3>Logística</h3>
+                <p className="card-subtitle">Soluções logísticas completas</p>
+              </div>
+            </div>
+
+            <div className="card-content">
+              <div className="card-description">
+                <p>Infraestrutura moderna com processos padronizados para receber, controlar e distribuir suas cargas com segurança.</p>
+              </div>
+
+              <div className="card-features">
+                <div className="feature">
+                  <FaCheckCircle className="feature-icon" />
+                  <div>
+                    <h4>Controle Total</h4>
+                    <p>Gestão de estoque otimizada</p>
+                  </div>
+                </div>
+                <div className="feature">
+                  <FaShieldAlt className="feature-icon" />
+                  <div>
+                    <h4>Segurança</h4>
+                    <p>Estruturas preparadas e monitoradas</p>
+                  </div>
+                </div>
+                <div className="feature">
+                  <FaChartLine className="feature-icon" />
+                  <div>
+                    <h4>Redução de Custos</h4>
+                    <p>Operações inteligentes e eficientes</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          {/* CTA SECTION */}
+          <div className="services-cta">
+            <h3>Pronto para melhorar sua logística?</h3>
+            <p>Solicite uma consultoria gratuita e descubra como podemos otimizar sua operação</p>
+            <a href="https://wa.me/5593992040474?text=Gostaria%20de%20solicitar%20uma%20consultoria%20gratuita%20para%20melhorar%20minha%20log%C3%ADstica" target="_blank" rel="noopener noreferrer" className="cta-primary-btn">Solicitar Consultoria</a>
           </div>
-          <div className="service-body">
-            <h3>Gestão de Cargas</h3>
-            <p>
-              A União Transportes oferece um serviço completo de Gestão de Cargas, garantindo controle total, precisão nas informações e eficiência em cada etapa da operação logística. Atuamos desde o recebimento até a entrega final, com processos padronizados e tecnologia integrada para assegurar que cada carga seja monitorada com segurança e transparência.
-
-              Com sistemas atualizados e equipe especializada, acompanhamos o status das mercadorias em tempo real, registramos movimentações, prevenimos atrasos e asseguramos que o cliente tenha sempre acesso às informações essenciais para seu planejamento. Nosso foco é otimizar rotas, reduzir custos e proporcionar uma experiência logística confiável tanto no Pará quanto no Mato Grosso.
-
-              A União Transportes trabalha para que cada carga seja tratada com máxima responsabilidade, eficiência operacional e compromisso com prazos, fortalecendo a relação com nossos clientes e garantindo resultados consistentes.
-            </p>
-          </div>
-        </article>
-
-        <article className="service-card">
-          <div className="service-media">
-            <img src="/img/logistica.png" alt="Logística e Armazenagem" />
-          </div>
-          <div className="service-body">
-            <h3>Logística e Armazenagem</h3>
-            <p>
-              A União Transportes oferece soluções completas de Logística e Armazenagem, garantindo organização, segurança e eficiência em todas as etapas do fluxo de mercadorias. Nossas estruturas são preparadas para receber, armazenar e distribuir cargas com controle rigoroso, seguindo padrões que asseguram integridade e rastreabilidade total.
-
-              Contamos com processos bem definidos, conferência precisa, gestão de estoque otimizada e movimentação interna organizada, permitindo agilidade nas entradas e saídas. Unimos tecnologia e equipe especializada para oferecer ao cliente máxima visibilidade sobre seus produtos e total confiabilidade na operação.
-
-              Com atuação estratégica no Pará e no Mato Grosso, a União Transportes integra armazenagem e transporte de forma inteligente, reduzindo prazos, diminuindo custos e garantindo que cada carga siga seu destino da maneira mais eficiente possível.
-            </p>
-          </div>
-        </article>
+        </div>
       </div>
     </section>
   );

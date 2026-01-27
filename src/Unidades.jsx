@@ -4,7 +4,7 @@ function Unidades() {
       <div className="page-title-container">
         <h2>Nossas Unidades</h2>
       </div>
-      <p className="section-subtitle">Estamos estrategicamente localizados para conectar o Brasil.</p>
+      <p className="section-subtitle">Estamos Presentes no Paráe no Norte do Mato Grosso</p>
       <div className="units-content-wrapper">
         <div className="units-list-container">
           {/* Card Santarém */}

@@ -1155,43 +1155,8 @@ section h1, section h2, section h3,
   text-align: center;
   /* Gradiente estático, usando o mesmo gradiente da seção Início mas com uma posição fixa */
   background: linear-gradient(125deg, var(--cor-primaria), var(--cor-secundaria), var(--cor-destaque));
-
-/* DEBUG: Disable all CSS animations/transitions temporarily to help diagnose layout/paint issues.
-   Remove this block after debugging. */
-*,
-*::before,
-*::after {
-  animation: none !important;
-  transition: none !important;
-}
-
-/* Disable smooth scrolling while debugging to avoid scroll-related paint issues */
-html, body {
-  scroll-behavior: auto !important;
-}
-/* Variáveis de offset (altura do menu + folga visual) */
-:root { --header-height: 90px; --anchor-gap: 40px; }
-@media (max-width: 768px) { :root { --header-height: 76px; --anchor-gap: 28px; } }
-
-/* Padding superior nas páginas sem hero para evitar sobreposição do menu */
-.main-default { padding-top: calc(var(--header-height) + var(--anchor-gap) + 40px); }
-
-/* Ao navegar por âncoras, garantir que os títulos não fiquem sob o menu, com folga extra */
-.services,
-.units,
-.cidades-section { scroll-margin-top: calc(var(--header-height) + var(--anchor-gap)); }
-
-/* Página padrão: dar uma pequena margem extra para o primeiro título */
-.main-default .page-title-container { margin-top: calc(var(--anchor-gap) + 12px); }
-
-/* Folga adicional nas páginas internas comuns */
-.main-default .sobre-container,
-.main-default .contato-container {
-  margin-top: calc(var(--header-height) + var(--anchor-gap));
-  scroll-margin-top: calc(var(--header-height) + var(--anchor-gap));
-}
-  background-size: 200% 200%; /* Tamanho ajustado para o gradiente estático */
-  background-position: 75% 50%; /* Posição que destaca a transição de cores */
+  background-size: 200% 200%;
+  background-position: 75% 50%;
 }
 
 .units h2 {

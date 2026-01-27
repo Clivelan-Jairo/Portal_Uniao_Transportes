@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import cidadesPA from './data/cidades_pa.json';
 import cidadesMT from './data/cidades_mt.json';
+import './CidadesAtendidas.css';
 
 // remove duplicates that can appear in the source JSON files
 const uniqueCidadesPA = Array.from(new Set(cidadesPA));
@@ -246,11 +247,15 @@ function CidadesAtendidas() {
 
   return (
     <section id="cidades" className={`cidades-section fade-up ${active ? 'active' : ''}`}>
-      <div className="container">
-        <div className="page-title-container">
+      <div className="cidades-bg" aria-hidden="true" />
+      <div className="cidades-noise" aria-hidden="true" />
+      
+      <div className="container cidades-shell">
+        <div className="cidades-header">
+          <span className="cidades-eyebrow">Cobertura Operacional</span>
           <h2>Cidades atendidas</h2>
+          <p className="cidades-desc">Clique nos estados para visualizar todas as cidades onde operamos.</p>
         </div>
-        <p className="section-subtitle">Lista de cidades atendidas nos estados do Pará e Mato Grosso.</p>
 
         <div className="cidades-content">
         <div className="cidades-map" aria-hidden="false">
@@ -344,7 +349,7 @@ function CidadesAtendidas() {
             </div>
           )}
         </div>
-      </div>
+        </div>
       </div>
     </section>
   );

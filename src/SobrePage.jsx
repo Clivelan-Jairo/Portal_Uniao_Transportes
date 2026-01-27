@@ -10,8 +10,8 @@ function SobrePage() {
       <div className="container about-shell fade-up">
         <div className="about-header">
           <span className="about-eyebrow">Nossa História</span>
-          <h2>Conectar distâncias, mover resultados</h2>
-          <p>Desde Santarém, crescemos ligando pessoas e negócios pelo Pará e Mato Grosso. Evoluímos com foco em segurança, eficiência e transparência — do rodoviário ao apoio multimodal.</p>
+          <h2>Servir o Pará,Promover resultados</h2>
+          <p>Desde Santarém, crescemos para atender todas as cidades do Pará. Com presença em pontos estratégicos, priorizamos a cobertura completa do estado, com foco em segurança, eficiência e transparência — do rodoviário ao apoio multimodal.</p>
         </div>
 
         <div className="about-grid">
@@ -27,7 +27,7 @@ function SobrePage() {
             <div className="story-chapters">
               <div className="chapter">
                 <h4>Missão</h4>
-                <p>Conectar o Norte ao Brasil com logística confiável, humana e transparente — unindo planejamento, tecnologia e raízes amazônicas.</p>
+                <p>Atender todas as cidades do Pará com logística confiável, humana e transparente — unindo planejamento, tecnologia e raízes amazônicas.</p>
               </div>
               <div className="chapter">
                 <h4>Visão</h4>
