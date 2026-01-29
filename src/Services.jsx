@@ -93,7 +93,7 @@ function Services() {
                   <FaTruck className="feature-icon" />
                   <div>
                     <h4>Frota Moderna</h4>
-                    <p>Veículos bem mantidos e drivers experientes</p>
+                    <p>Eficiência em movimento</p>
                   </div>
                 </div>
               </div>

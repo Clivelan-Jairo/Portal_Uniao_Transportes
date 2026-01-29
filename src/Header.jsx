@@ -33,9 +33,9 @@ function Header() {
         <nav className="pill-nav">
           <ul>
             <li><HashLink to="/#inicio" onClick={closeMenu}>Início</HashLink></li>
-            <li><HashLink to="/#servicos" onClick={closeMenu}>Serviços</HashLink></li>
             <li><HashLink to="/#unidades" onClick={closeMenu}>Unidades</HashLink></li>
             <li><HashLink to="/#cidades" onClick={closeMenu}>Cidades atendidas</HashLink></li>
+            <li><HashLink to="/#servicos" onClick={closeMenu}>Serviços</HashLink></li>
             <li><Link to="/sobre" onClick={closeMenu}>Sobre</Link></li>
             <li><Link to="/contato" onClick={closeMenu}>Contato</Link></li>
           </ul>
