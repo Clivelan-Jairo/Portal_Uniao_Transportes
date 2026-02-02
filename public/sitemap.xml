@@ -4,8 +4,102 @@
   <url>
     <loc>https://www.uniaotransportesstm.com.br/</loc>
     <image:image>
-      <image:loc>https://uniaotransportesstm.com.br/img/og-image.png</image:loc>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/og-image.png</image:loc>
       <image:title>União Transportes - Transporte Rodoviário de Cargas</image:title>
+      <image:caption>Logotipo e banner principal da União Transportes</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/banner.png</image:loc>
+      <image:title>Banner - União Transportes</image:title>
+      <image:caption>Banner principal do site</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/transporte_rodoviario.png</image:loc>
+      <image:title>Serviço de Transporte Rodoviário</image:title>
+      <image:caption>Imagem ilustrativa de transporte rodoviário de cargas</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/logistica.png</image:loc>
+      <image:title>Serviço de Logística</image:title>
+      <image:caption>Serviços de logística e distribuição</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/gestao.png</image:loc>
+      <image:title>Gestão de Frota</image:title>
+      <image:caption>Gestão eficiente de frotas de transporte</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/rastreio.png</image:loc>
+      <image:title>Rastreamento em Tempo Real</image:title>
+      <image:caption>Sistema de rastreamento de cargas</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/infraestrutura/infraestrutura.png</image:loc>
+      <image:title>Infraestrutura - União Transportes</image:title>
+      <image:caption>Imagens da infraestrutura da empresa</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/mapa-unidades.png</image:loc>
+      <image:title>Mapa de Unidades</image:title>
+      <image:caption>Localização das unidades da União Transportes</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.uniaotransportesstm.com.br/sobre</loc>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/logo.png</image:loc>
+      <image:title>Logo União Transportes</image:title>
+      <image:caption>Logo da empresa União Transportes</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.uniaotransportesstm.com.br/servicos</loc>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/transporte_rodoviario.png</image:loc>
+      <image:title>Serviço de Transporte Rodoviário</image:title>
+      <image:caption>Transporte rodoviário de cargas em todo Brasil</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/logistica.png</image:loc>
+      <image:title>Serviços de Logística</image:title>
+      <image:caption>Logística integrada e distribuição</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/gestao.png</image:loc>
+      <image:title>Gestão de Frota</image:title>
+      <image:caption>Gestão profissional de frotas</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.uniaotransportesstm.com.br/rastreio</loc>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/rastreio.png</image:loc>
+      <image:title>Rastreamento de Cargas</image:title>
+      <image:caption>Sistema de rastreamento em tempo real</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.uniaotransportesstm.com.br/infraestrutura</loc>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/infraestrutura/infraestrutura.png</image:loc>
+      <image:title>Infraestrutura da Empresa</image:title>
+      <image:caption>Instalações e infraestrutura de apoio</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.uniaotransportesstm.com.br/cidades-atendidas</loc>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/mapa-brasil.svg</image:loc>
+      <image:title>Mapa de Cobertura - Brasil</image:title>
+      <image:caption>Mapa do Brasil mostrando as cidades atendidas</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.uniaotransportesstm.com.br/contato</loc>
+    <image:image>
+      <image:loc>https://www.uniaotransportesstm.com.br/img/logo.png</image:loc>
+      <image:title>Logo União Transportes</image:title>
+      <image:caption>Logo da União Transportes</image:caption>
     </image:image>
   </url>
 </urlset>

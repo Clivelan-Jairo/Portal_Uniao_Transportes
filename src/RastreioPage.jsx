@@ -252,96 +252,113 @@ function RastreioPage() {
   };
 
   return (
-    <div className="container rastreio-page-container fade-up">
-      <div className="rastreio-image-container">
-        <img src="/img/rastreio.png" alt="Nova ilustração para a página de rastreamento" />
-      </div>
-      <div className="rastreio-form-container">
-        {!showResult && (
-          <>
-            <div className="page-title-container">
-              <h2>Rastreio de Encomendas</h2>
-            </div>
-            <p>Digite o CPF ou CNPJ do destinatário e o número da nota fiscal para acompanhar sua entrega.</p>
-          </>
-        )}
-        
-        {!showResult && (
-        <form 
-          className="rastreio-form" 
-          name="form1"
-          onSubmit={handleSubmit}
-        >
-          <div className="form-group">
-            <label htmlFor="cnpjdest">CPF ou CNPJ do destinatário:</label>
-            <input
-              type="text"
-              id="cnpjdest"
-              name="cnpjdest"
-              maxLength="14"
-              placeholder="Digite apenas números"
-              value={cnpjdest}
-              onChange={(e) => setCnpjdest(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="numeroNota">Notas Fiscais (uma por linha)</label>
-            <textarea id="numeroNota" name="NR" rows="5" value={numeroNota} onChange={(e) => setNumeroNota(e.target.value)} required></textarea>
-          </div>
-          
-          <input type="hidden" name="urlori" value="https://ssw.inf.br/ajuda/rastreamentodestnf.html" />
-          
-          <div className="form-buttons">
-            <button type="submit" className="btn-primary">Rastrear</button>
-            <button type="button" className="btn-secondary" onClick={handleLimpar}>Limpar</button>
-          </div>
-        </form>
-        )}
-        {/* Resultado retornado pela API renderizado (substitui o formulário quando showResult=true) */}
-        <div className="rastreio-result" style={{ marginTop: '1rem' }}>
-          {loading && <p>Carregando resultados...</p>}
+    <section className="tracking-page">
+      <div className="tracking-bg" aria-hidden="true" />
+      <div className="tracking-noise" aria-hidden="true" />
 
-          {!loading && showResult && (
-            <div>
-              {/* aviso de sucesso/erro */}
-              {resultSuccess ? (
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-                  <div className="found-animation" aria-hidden>
-                    <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                      <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none" stroke="#0a7a2a" strokeWidth="2" />
-                      <path className="checkmark__check" fill="none" stroke="#0a7a2a" strokeWidth="4" d="M14 27l7 7 17-17" />
-                    </svg>
+      <div className="container tracking-shell fade-up">
+        <div className="tracking-header">
+          <span className="tracking-eyebrow">Rastreio</span>
+          <h2>Acompanhe suas notas fiscais em tempo real</h2>
+          <p>Informe o CPF/CNPJ do destinatário e as notas fiscais para visualizar o histórico de movimentações com total transparência.</p>
+          <div className="tracking-tags">
+            <span className="tag chip">CPF ou CNPJ</span>
+            <span className="tag chip">Múltiplas notas</span>
+            <span className="tag chip">Histórico detalhado</span>
+          </div>
+        </div>
+
+        <div className="tracking-grid">
+          <div className="tracking-panel tracking-visual">
+            <div className="tracking-visual-media">
+              <img src="/img/rastreio.png" alt="Ilustração para a página de rastreamento" />
+            </div>
+          </div>
+
+          <div className="tracking-panel tracking-form-card">
+            <div className="tracking-form-head">
+              <h3>{showResult ? 'Resultado do rastreio' : 'Consultar rastreio'}</h3>
+              <p>{showResult ? 'Confira o histórico de movimentações abaixo.' : 'Preencha os campos para buscar o status da sua entrega.'}</p>
+            </div>
+
+            {!showResult && (
+              <form
+                className="rastreio-form"
+                name="form1"
+                onSubmit={handleSubmit}
+              >
+                <div className="form-group">
+                  <label htmlFor="cnpjdest">CPF ou CNPJ do destinatário:</label>
+                  <input
+                    type="text"
+                    id="cnpjdest"
+                    name="cnpjdest"
+                    maxLength="14"
+                    placeholder="Digite apenas números"
+                    value={cnpjdest}
+                    onChange={(e) => setCnpjdest(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="numeroNota">Notas Fiscais (uma por linha)</label>
+                  <textarea id="numeroNota" name="NR" rows="5" value={numeroNota} onChange={(e) => setNumeroNota(e.target.value)} required></textarea>
+                </div>
+
+                <input type="hidden" name="urlori" value="https://ssw.inf.br/ajuda/rastreamentodestnf.html" />
+
+                <div className="form-buttons">
+                  <button type="submit" className="btn-primary">Rastrear</button>
+                  <button type="button" className="btn-secondary" onClick={handleLimpar}>Limpar</button>
+                </div>
+              </form>
+            )}
+
+            {/* Resultado retornado pela API renderizado (substitui o formulário quando showResult=true) */}
+            <div className="rastreio-result">
+              {loading && <p>Carregando resultados...</p>}
+
+              {!loading && showResult && (
+                <div>
+                  {/* aviso de sucesso/erro */}
+                  {resultSuccess ? (
+                    <div className="rastreio-status">
+                      <div className="found-animation" aria-hidden>
+                        <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                          <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none" stroke="#0a7a2a" strokeWidth="2" />
+                          <path className="checkmark__check" fill="none" stroke="#0a7a2a" strokeWidth="4" d="M14 27l7 7 17-17" />
+                        </svg>
+                      </div>
+                    </div>
+                  ) : (
+                    resultMessage ? (
+                      <div className="rastreio-warning">
+                        {resultMessage}
+                      </div>
+                    ) : null
+                  )}
+
+                  {/* Conteúdo formatado do rastreio */}
+                  <div ref={iframeRef} className="rastreio-result-box" dangerouslySetInnerHTML={{ __html: resultHtml }} />
+
+                  {/* botão para nova consulta (centralizado) */}
+                  <div className="rastreio-new-btn-wrap">
+                    <button className="btn-secondary rastreio-new-btn" onClick={() => {
+                      setShowResult(false);
+                      setResultHtml(null);
+                      setResultSuccess(false);
+                      setResultMessage('');
+                      setCnpjdest('');
+                      setNumeroNota('');
+                    }}>Fazer nova consulta</button>
                   </div>
                 </div>
-              ) : (
-                // Só mostra o aviso laranja se houver uma mensagem explícita para exibir.
-                resultMessage ? (
-                  <div style={{ background: '#fff4e5', color: '#7a520a', border: '1px solid #f0d9b5', padding: '10px 12px', borderRadius: 6, marginBottom: 12 }}>
-                    {resultMessage}
-                  </div>
-                ) : null
               )}
-
-              {/* Conteúdo formatado do rastreio */}
-              <div ref={iframeRef} className="rastreio-result-box" dangerouslySetInnerHTML={{ __html: resultHtml }} />
-
-              {/* botão para nova consulta (centralizado) */}
-              <div className="rastreio-new-btn-wrap">
-                <button className="btn-secondary rastreio-new-btn" onClick={() => {
-                  setShowResult(false);
-                  setResultHtml(null);
-                  setResultSuccess(false);
-                  setResultMessage('');
-                  setCnpjdest('');
-                  setNumeroNota('');
-                }}>Fazer nova consulta</button>
-              </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
